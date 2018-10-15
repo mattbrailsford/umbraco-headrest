@@ -1,2 +1,2 @@
-# umbraco-headrest
-A simple headless rest API framework for Umbraco
+# HeadRest
+A REST based headless approach for Umbraco
