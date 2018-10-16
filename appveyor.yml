@@ -1,0 +1,54 @@
+image: Visual Studio 2017
+
+# version format
+version: 0.1.0.{build}
+
+# UMBRACO_PACKAGE_PRERELEASE_SUFFIX if a rtm release build this should be blank, otherwise if empty will default to alpha
+# example UMBRACO_PACKAGE_PRERELEASE_SUFFIX=beta
+init:
+  - set UMBRACO_PACKAGE_PRERELEASE_SUFFIX=
+
+cache:
+  - src\packages -> **\packages.config  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
+
+before_build:
+  - nuget restore src
+
+build_script:
+- build-appveyor.cmd
+
+artifacts:
+  - path: artifacts\*.nupkg
+  - path: artifacts\*.zip
+
+deploy:
+    # MyGet Deployment for builds & releases
+  - provider: NuGet
+    server: https://www.myget.org/F/umbraco-headrest/api/v2/package
+    symbol_server: https://www.myget.org/F/umbraco-headrest/symbols/api/v2/package
+    api_key:
+      secure: gHDTL46KZcLzj6J8m//TJgaCOJCl9ixR//rXjO18HRlCsfPYYz7dU81u2D5zd+ZN
+    artifact: /.*\.nupkg/
+    on:
+      branch: develop
+
+    # GitHub Deployment for releases
+  - provider: GitHub
+    auth_token:
+      secure: k1eoY0KXg/FPYKGDeVJCl31exw28E7ToEZmAgc2M9VfbnSN6HeWltfTe7u20lvP7
+    artifact: /.*\.zip/            # upload all Zip packages to release assets
+    draft: false
+    prerelease: false
+    on:
+      branch: master
+      appveyor_repo_tag: true        # deploy on tag push only
+
+    # NuGet Deployment for releases
+  - provider: NuGet
+    server: 
+    api_key:
+      secure: q2Aov00i+eWTpbwWHB1JN8EAGw4o8FaOC2lj2MolyS6TGkUUFTJK/vQTQzaf/EQ5
+    artifact: /.*\.nupkg/
+    on:
+      branch: master
+      appveyor_repo_tag: true
