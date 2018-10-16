@@ -66,7 +66,7 @@ In order for HeadRest to know which ViewModel a ModelsBuilder model should map t
     }
 ````
 
-*NB* Whilst the `ViewModelForAttribute` tells HeadRest which ViewModel to map a ModelsBuilder model to, it does *not* tell it how to actually map the properties over. For this you will need to instruct the model mapper using it's predefined mapping approach, for example, with AutoMapper you will want to define your mappings in an `ApplicationEventHandler` like so:
+**NB** Whilst the `ViewModelForAttribute` tells HeadRest which ViewModel to map a ModelsBuilder model to, it does *not* tell it how to actually map the properties over. For this you will need to instruct the model mapper using it's predefined mapping approach, for example, with AutoMapper you will want to define your mappings in an `ApplicationEventHandler` like so:
 ````csharp 
     public class Boostrap : ApplicationEventHandler
     {
