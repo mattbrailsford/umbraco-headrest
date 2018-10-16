@@ -30,7 +30,7 @@ For the most basic implementation, the following minimal configuration is all th
 This will create an API endpoint at the path `/`, and will be anchored to the first content at the root of the site.
 
 ### Advanced Configuration
-For a more advanced implementation, the following conifguration shows all the supported options.
+For a more advanced implementation, the following configuration shows all the supported options.
 ````csharp 
     HeadRest.ConfigureEndpoint("/api/", "/root//nodeTypeAlias[1]", new HeadRestOptions {
         ControllerType = typeof(HeadRestController),
@@ -49,7 +49,7 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
   The XPath statement for the root node from which to anchor your API endpoint to.
 * __ControllerType : Type__   
   _[optional, default:typeof(HeadRestController)]_  
-  The Controller to use to service the API requests. Controllers must inherit from `HeadRestController`. Useful to add extra FilterAttributes to the request such as AuthU and the `OAuth` attrbute.
+  The Controller to use to service the API requests. Controllers must inherit from `HeadRestController`. Useful to add extra FilterAttributes to the request such as AuthU and the `OAuth` attribute.
 * __Mapper : Func<HeadRestMapperContext, object>__   
   _[optional, default:ctx => AutoMapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType)]_  
   A function to perform the map between the nodes ModelsBuilder model and it's associated ViewModel. Defaults to using AutoMapper.
