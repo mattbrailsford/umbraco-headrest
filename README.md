@@ -7,7 +7,7 @@ HeadRest creates REST API endpoints for your sites content by passing ModelsBuil
 
 ### Nuget
 
-    PM> Install-Package Our.Umbraco.HeadRest
+TBC
 
 ## Configuration
 HeadRest is configured using the `HeadRest.ConfigureEndpoint` helper inside an Umbraco `ApplicationEventHandler` like so:
