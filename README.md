@@ -32,7 +32,7 @@ This will create an API endpoint at the path `/`, and will be anchored to the fi
 ### Advanced Configuration
 For a more advanced implementation, the following conifguration shows all the supported options.
 ````csharp 
-    OAuth.ConfigureEndpoint("/api/", "/root//nodeTypeAlias[1]", new HeadRestOptions {
+    HeadRest.ConfigureEndpoint("/api/", "/root//nodeTypeAlias[1]", new HeadRestOptions {
         ControllerType = typeof(HeadRestController),
         Mapper = ctx => AutoMapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType),
         RoutesListPath = "urls"
