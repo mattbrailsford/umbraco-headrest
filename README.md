@@ -1,7 +1,9 @@
 # HeadRest
 A REST based headless approach for Umbraco.
 
-HeadRest creates REST API endpoints for your sites content by passing ModelsBuilder models through a mapping function to create a serializable ViewModel for a given page. Out of the box HeadRest is configured to use AutoMapper to perform it's mappings, however you can control define your own custom mapper function to use other model mappers such as Ditto or UmbMapper.
+HeadRest converts your Umbraco front end into a REST API by passing ModelsBuilder models through a mapping function to create a serializable ViewModels and returning them as JSON payloads. 
+
+Out of the box HeadRest is configured to use AutoMapper to perform it's mappings, however you can define your own custom mapper function to use other model mappers such as Ditto or UmbMapper.
 
 ## Installation
 
