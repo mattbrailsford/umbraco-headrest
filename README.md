@@ -89,5 +89,5 @@ Anyone and everyone is welcome to contribute. Please take a moment to review the
 
 Copyright &copy; 2018 Matt Brialsford, Outfield Digital Ltd 
 
-Licensed under the [MIT License](LICENSE.md)
+Licensed under the [MIT License](LICENSE)
 
