@@ -47,7 +47,9 @@ namespace Our.Umbraco.HeadRest.Web.Controllers
 
             // Process the model mapping request
             var contentTypeAlias = model.Content.DocumentTypeAlias;
-            var viewModelType = ViewModelsResolver.Current.GetViewModelTypeFor(contentTypeAlias);
+            var viewModelType = Config.ViewModelMappings != null
+                ? Config.ViewModelMappings.GetViewModelTypeFor(contentTypeAlias)
+                : ViewModelsResolver.Current.GetViewModelTypeFor(contentTypeAlias);
             var viewModel = Config.Mapper.Invoke(new HeadRestMappingContext
             {
                 Content = model.Content,

@@ -221,6 +221,7 @@
     <Compile Include="Web\Controllers\AuthorizedHeadRestController.cs" />
     <Compile Include="Web\Controllers\HeadRestController.cs" />
     <Compile Include="Web\Mapping\HeadRestMappingContext.cs" />
+    <Compile Include="Web\Mapping\HeadRestViewModelMap.cs" />
     <Compile Include="Web\Models\NotFoundPublishedContent.cs" />
     <Compile Include="Web\Mvc\HeadRestExceptionFilterAttribute.cs" />
     <Compile Include="Web\Mvc\HeadRestResult.cs" />

@@ -9,6 +9,7 @@ namespace Our.Umbraco.HeadRest
     {
         public Type ControllerType { get; set; }
         public Func<HeadRestMappingContext, object> Mapper { get; set; }
+        public HeadRestViewModelMap ViewModelMappings { get; set; }
         public string RoutesListPath { get; set; }
 
         public HeadRestOptions()

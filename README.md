@@ -24,21 +24,29 @@ HeadRest is configured using the `HeadRest.ConfigureEndpoint` helper inside an U
 ### Basic Configuration
 For the most basic implementation, the following minimal configuration is all that is needed:
 ````csharp 
-    HeadRest.ConfigureEndpoint();
+    HeadRest.ConfigureEndpoint(new HeadRestOptions {
+        ViewModelMappings = new new HeadRestViewModelMap()
+            .For(HomePage.ModelTypeAlias).MapTo<HomePageViewModel>()
+            ...
+    });
 ````
 
-This will create an API endpoint at the path `/`, and will be anchored to the first content at the root of the site.
+This will create an API endpoint at the path `/`, and will be anchored to the first content at the root of the site. It will use the list of `ViewModelMappings` provided to lookup the viewmodel to map a given node to.
 
 ### Advanced Configuration
 For a more advanced implementation, the following configuration shows all the supported options.
 ````csharp 
     HeadRest.ConfigureEndpoint("/api/", "/root//nodeTypeAlias[1]", new HeadRestOptions {
         ControllerType = typeof(HeadRestController),
-        Mapper = ctx => AutoMapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType),
+        Mapper = ctx => AutoMapper.Map(ctx.Content, ctx.ContentType, 
+        ctx.ViewModelType),
+        ViewModelMappings = new new HeadRestViewModelMap()
+            .For(HomePage.ModelTypeAlias).MapTo<HomePageViewModel>()
+            ...
         RoutesListPath = "urls"
     });
 ````
-This will create an endpoint at the url `/api/`, and will be anchored to the node at the XPath `/root//nodeTypeAlias[1]`. In addition, the supplied controller will be used to handle the HeadRest requests and the supplied mapper function will be used to perform the mapping. Lastly, a list of available route will be available at the `/api/urls/` URL.
+This will create an endpoint at the url `/api/`, and will be anchored to the node at the XPath `/root//nodeTypeAlias[1]`. In addition, the supplied controller will be used to handle the HeadRest requests and the supplied mapper function will be used to perform the mapping. It will use the list of `ViewModelMappings` provided to lookup the viewmodel to map a given node to. Lastly, a list of available route will be available at the `/api/urls/` URL. 
 
 ### Configuration Options
 * __basePath : string__   
@@ -53,20 +61,14 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
 * __Mapper : Func<HeadRestMapperContext, object>__   
   _[optional, default:ctx => AutoMapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType)]_  
   A function to perform the map between the nodes ModelsBuilder model and it's associated ViewModel. Defaults to using AutoMapper.
+* __ViewModelMappings : HeadRestViewModelMap__   
+  _[required, default:null]_  
+  A fluent list of mappings to determine which ViewModel a given content type should be mapped to.
 * __RoutesListPath : string__   
   _[optional, default:"routes"]_  
   A sub path from which to retrieve a list of all available route URLs for the given endpoint.
 
-### ViewModels
-In order for HeadRest to know which ViewModel a ModelsBuilder model should map to, HeadRest provides a `ViewModelForAttribute` to decorate your view models with in order to do this.
-````csharp 
-    [ViewModelFor(HomePage.ModelTypeAlias)]
-    public class HomePageViewModel {
-        ...
-    }
-````
-
-**NB** Whilst the `ViewModelForAttribute` tells HeadRest which ViewModel to map a ModelsBuilder model to, it does *not* tell it how to actually map the properties over. For this you will need to instruct the model mapper using it's predefined mapping approach, for example, with AutoMapper you will want to define your mappings in an `ApplicationEventHandler` like so:
+**NB** Whilst the `ViewModelMappings` tells HeadRest which ViewModel to map a content model to, it does *not* tell it how to actually map the properties over. For this you will need to instruct the model mapper using it's predefined mapping approach, for example, with AutoMapper you will want to define your mappings in an `ApplicationEventHandler` like so:
 ````csharp 
     public class Boostrap : ApplicationEventHandler
     {
