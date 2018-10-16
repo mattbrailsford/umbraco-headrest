@@ -6,15 +6,18 @@ namespace Our.Umbraco.HeadRest.Web.Mapping
     public class HeadRestViewModelMap
     {
         private IDictionary<string, Type> _viewModels;
+        private HeadRestViewModelForMap _for;
 
         public HeadRestViewModelMap()
         {
             _viewModels = new Dictionary<string, Type>();
+            _for = new HeadRestViewModelForMap(this);
         }
 
         public HeadRestViewModelForMap For(string contentTypeAlias)
         {
-            return new HeadRestViewModelForMap(this, contentTypeAlias);
+            _for.ContentTypeAlias = contentTypeAlias;
+            return _for;
         }
 
         internal void AddViewModelMap(string contentTypeAlias, Type viewModelType)
@@ -38,18 +41,18 @@ namespace Our.Umbraco.HeadRest.Web.Mapping
     public class HeadRestViewModelForMap
     {
         private HeadRestViewModelMap _modelMap;
-        private string _contentTypeAlias;
 
-        internal HeadRestViewModelForMap(HeadRestViewModelMap modelMap, string contentTypeAlias)
+        internal string ContentTypeAlias { get; set; }
+
+        internal HeadRestViewModelForMap(HeadRestViewModelMap modelMap)
         {
             _modelMap = modelMap;
-            _contentTypeAlias = contentTypeAlias;
         }
 
         public HeadRestViewModelMap MapTo<TViewModel>()
             where TViewModel : class
         {
-            _modelMap.AddViewModelMap(_contentTypeAlias, typeof(TViewModel));
+            _modelMap.AddViewModelMap(ContentTypeAlias, typeof(TViewModel));
             return _modelMap;
         }
     }
