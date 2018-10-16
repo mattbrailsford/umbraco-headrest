@@ -209,7 +209,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\ViewModelForAttribute.cs" />
     <Compile Include="Bootstrap.cs" />
     <Compile Include="HeadRestConfig.cs" />
     <Compile Include="HeadRestOptions.cs" />
@@ -226,7 +225,6 @@
     <Compile Include="Web\Mvc\HeadRestExceptionFilterAttribute.cs" />
     <Compile Include="Web\Mvc\HeadRestResult.cs" />
     <Compile Include="Web\Mvc\HeadRestAuthorizeAttribute.cs" />
-    <Compile Include="Web\Resolvers\ViewModelsResolver.cs" />
     <Compile Include="Web\Routing\HeadRestRouteHandler.cs" />
     <Compile Include="Web\Routing\HeadRestUrlProvider.cs" />
   </ItemGroup>

@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using System;
 using System.Web.Routing;
+using System.Collections.Concurrent;
 using Umbraco.Web;
 using Umbraco.Core;
 using Our.Umbraco.HeadRest.Web.Routing;
 using Our.Umbraco.HeadRest.Web.Controllers;
-using System.Collections.Concurrent;
 
 namespace Our.Umbraco.HeadRest
 {
@@ -13,29 +13,14 @@ namespace Our.Umbraco.HeadRest
     {
         internal static ConcurrentDictionary<string, HeadRestConfig> Configs = new ConcurrentDictionary<string, HeadRestConfig>();
 
-        public static void ConfigureEndpoint()
-        {
-            ConfigureEndpoint(new HeadRestOptions());
-        }
-
         public static void ConfigureEndpoint(HeadRestOptions options)
         {
             ConfigureEndpoint("/", "/root/*[@isDoc][1]", options);
         }
 
-        public static void ConfigureEndpoint(string basePath)
-        {
-            ConfigureEndpoint(basePath, "/root/*[@isDoc][1]", new HeadRestOptions());
-        }
-
         public static void ConfigureEndpoint(string basePath, HeadRestOptions options)
         {
             ConfigureEndpoint(basePath, "/root/*[@isDoc][1]", options);
-        }
-
-        public static void ConfigureEndpoint(string basePath, string rootNodeXPath)
-        {
-            ConfigureEndpoint(basePath, rootNodeXPath, new HeadRestOptions());
         }
 
         public static void ConfigureEndpoint(string basePath, string rootNodeXPath, HeadRestOptions options)
@@ -73,6 +58,11 @@ namespace Our.Umbraco.HeadRest
             if (!typeof(HeadRestController).IsAssignableFrom(config.ControllerType))
             {
                 throw new Exception("Supplied controller type must inherit from HeadRestController");
+            }
+
+            if (config.ViewModelMappings == null)
+            {
+                throw new Exception("ViewModelMappings can not be null");
             }
         }
     }

@@ -2,7 +2,6 @@
 using Umbraco.Web.Models;
 using Umbraco.Web.Mvc;
 using Our.Umbraco.HeadRest.Web.Mvc;
-using Our.Umbraco.HeadRest.Web.Resolvers;
 using Our.Umbraco.HeadRest.Web.Mapping;
 using System.Collections.Generic;
 using Our.Umbraco.HeadRest.Interfaces;
@@ -47,9 +46,7 @@ namespace Our.Umbraco.HeadRest.Web.Controllers
 
             // Process the model mapping request
             var contentTypeAlias = model.Content.DocumentTypeAlias;
-            var viewModelType = Config.ViewModelMappings != null
-                ? Config.ViewModelMappings.GetViewModelTypeFor(contentTypeAlias)
-                : ViewModelsResolver.Current.GetViewModelTypeFor(contentTypeAlias);
+            var viewModelType = Config.ViewModelMappings.GetViewModelTypeFor(contentTypeAlias);
             var viewModel = Config.Mapper.Invoke(new HeadRestMappingContext
             {
                 Content = model.Content,
