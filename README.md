@@ -38,8 +38,7 @@ For a more advanced implementation, the following configuration shows all the su
 ````csharp 
     HeadRest.ConfigureEndpoint("/api/", "/root//nodeTypeAlias[1]", new HeadRestOptions {
         ControllerType = typeof(HeadRestController),
-        Mapper = ctx => AutoMapper.Map(ctx.Content, ctx.ContentType, 
-        ctx.ViewModelType),
+        Mapper = ctx => AutoMapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType),
         ViewModelMappings = new new HeadRestViewModelMap()
             .For(HomePage.ModelTypeAlias).MapTo<HomePageViewModel>()
             ...
