@@ -6,6 +6,6 @@ namespace Our.Umbraco.HeadRest.Web.Routing
     public class HeadRestRoutesResolverContext
     {
         public UmbracoContext UmbracoContext { get; internal set; }
-        public IPublishedContent RootNode { get; set; }
+        public IPublishedContent RootContent { get; set; }
     }
 }

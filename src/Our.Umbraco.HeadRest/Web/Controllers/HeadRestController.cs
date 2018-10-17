@@ -72,7 +72,7 @@ namespace Our.Umbraco.HeadRest.Web.Controllers
             var routes = Config.RoutesResolver.ResolveRoutes(new HeadRestRoutesResolverContext
             {
                 UmbracoContext = UmbracoContext,
-                RootNode = model.Content
+                RootContent = model.Content
             });
 
             return new HeadRestResult

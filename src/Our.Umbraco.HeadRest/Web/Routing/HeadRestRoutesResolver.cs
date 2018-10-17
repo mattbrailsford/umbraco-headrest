@@ -14,7 +14,7 @@ namespace Our.Umbraco.HeadRest.Web.Routing
         public string[] ResolveRoutes(HeadRestRoutesResolverContext context)
         {
             var navigator = context.UmbracoContext.ContentCache.GetXPathNavigator();
-            var itterator = navigator.Select($"id({context.RootNode.Id})/descendant-or-self::*[@isDoc]");
+            var itterator = navigator.Select($"id({context.RootContent.Id})/descendant-or-self::*[@isDoc]");
 
             var routes = new List<string>();
 
