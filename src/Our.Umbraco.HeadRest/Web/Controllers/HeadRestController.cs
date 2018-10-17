@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Our.Umbraco.HeadRest.Interfaces;
 using Umbraco.Core;
 using Our.Umbraco.HeadRest.Web.Models;
+using Our.Umbraco.HeadRest.Web.Routing;
 
 namespace Our.Umbraco.HeadRest.Web.Controllers
 {
@@ -35,10 +36,10 @@ namespace Our.Umbraco.HeadRest.Web.Controllers
             }
 
             // Check for routes request
-            if (!string.IsNullOrWhiteSpace(Config.RoutesListPath) && RouteData.Values["path"] != null)
+            if (Config.RoutesResolver != null && RouteData.Values["path"] != null)
             {
                 var path = RouteData.Values["path"].ToString();
-                if (Config.RoutesListPath.Trim('/').InvariantEquals(path.Trim('/')))
+                if (Config.RoutesResolver.Slug.Trim('/').InvariantEquals(path.Trim('/')))
                 {
                     return Routes(model);
                 }
@@ -68,18 +69,11 @@ namespace Our.Umbraco.HeadRest.Web.Controllers
 
         protected virtual ActionResult Routes(RenderModel model)
         {
-            var navigator = UmbracoContext.ContentCache.GetXPathNavigator();
-            var itterator = navigator.Select($"id({model.Content.Id})/descendant-or-self::*[@isDoc]");
-
-            var routes = new List<string>();
-
-            while (itterator.MoveNext())
+            var routes = Config.RoutesResolver.ResolveRoutes(new HeadRestRoutesResolverContext
             {
-                if (int.TryParse(itterator.Current.Evaluate("string(@id)").ToString(), out int id))
-                {
-                    routes.Add(UmbracoContext.UrlProvider.GetUrl(id));
-                }
-            }
+                UmbracoContext = UmbracoContext,
+                RootNode = model.Content
+            });
 
             return new HeadRestResult
             {

@@ -24,7 +24,7 @@ namespace Our.Umbraco.HeadRest.Web.Routing
                 && requestContext.RouteData.Values["path"] != null)
             {
                 var path = requestContext.RouteData.Values["path"].ToString().Trim('/');
-                if (_config.RoutesListPath.IsNullOrWhiteSpace() || !path.InvariantEquals(_config.RoutesListPath.Trim('/')))
+                if (_config.RoutesResolver == null || !path.InvariantEquals(_config.RoutesResolver.Slug.Trim('/')))
                 {
                     var pathParts = requestContext.RouteData.Values["path"].ToString().Trim('/').Split('/');
                     foreach (var pathPart in pathParts)

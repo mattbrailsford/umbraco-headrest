@@ -1,5 +1,6 @@
 ﻿using System;
 using Our.Umbraco.HeadRest.Web.Mapping;
+using Our.Umbraco.HeadRest.Web.Routing;
 
 namespace Our.Umbraco.HeadRest.Interfaces
 {
@@ -8,6 +9,6 @@ namespace Our.Umbraco.HeadRest.Interfaces
         Type ControllerType { get; }
         Func<HeadRestMappingContext, object> Mapper { get; }
         HeadRestViewModelMap ViewModelMappings { get; }
-        string RoutesListPath { get; }
+        HeadRestRoutesResolver RoutesResolver { get; }
     }
 }
