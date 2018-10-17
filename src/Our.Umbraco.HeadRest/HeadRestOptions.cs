@@ -16,7 +16,10 @@ namespace Our.Umbraco.HeadRest
         public HeadRestOptions()
         {
             ControllerType = typeof(HeadRestController);
-            Mapper = (ctx) => AutoMapper.Mapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType);
+            Mapper = (ctx) => AutoMapper.Mapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType, opts =>
+            {
+                opts.Items["HeadRestMappingContext"] = ctx;
+            });
             RoutesResolver = new DefaultHeadRestRoutesResolver("routes");
         }
     }
