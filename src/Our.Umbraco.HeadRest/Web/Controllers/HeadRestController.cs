@@ -3,7 +3,6 @@ using Umbraco.Web.Models;
 using Umbraco.Web.Mvc;
 using Our.Umbraco.HeadRest.Web.Mvc;
 using Our.Umbraco.HeadRest.Web.Mapping;
-using System.Collections.Generic;
 using Our.Umbraco.HeadRest.Interfaces;
 using Umbraco.Core;
 using Our.Umbraco.HeadRest.Web.Models;
@@ -53,12 +52,10 @@ namespace Our.Umbraco.HeadRest.Web.Controllers
                 Content = model.Content,
                 ContentType = model.Content.GetType(),
                 ViewModelType = viewModelType,
-                RequestContext = new HeadRestMappingRequestContext
-                {
-                    Request = Request,
-                    HttpContext = HttpContext,
-                    UmbracoContext = UmbracoContext
-                }
+
+                Request = Request,
+                HttpContext = HttpContext,
+                UmbracoContext = UmbracoContext
             });
 
             return new HeadRestResult

@@ -11,11 +11,6 @@ namespace Our.Umbraco.HeadRest.Web.Mapping
         public Type ContentType { get; internal set; }
         public Type ViewModelType { get; internal set; }
 
-        public HeadRestMappingRequestContext RequestContext { get; internal set; }
-    }
-
-    public class HeadRestMappingRequestContext
-    {
         public HttpRequestBase Request { get; internal set; }
         public HttpContextBase HttpContext { get; internal set; }
         public UmbracoContext UmbracoContext { get; internal set; }
