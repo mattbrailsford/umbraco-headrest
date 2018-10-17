@@ -65,7 +65,7 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
 * __ViewModelMappings : HeadRestViewModelMap__   
   _[required, default:null]_  
   A fluent list of mappings to determine which ViewModel a given content type should be mapped to.
-* __RoutesResovler : HeadRestRoutesResolver__   
+* __RoutesResolver : HeadRestRoutesResolver__   
   _[optional, default:new DefaultHeadRestRoutesResoler("routes")]_  
   A resolver to use to retrieve a list of available routes for the endpoint, and the slug from which to access the list. By default HeadRest uses `DefaultHeadRestRoutesResoler` which resolves individiual URL's from the XML cache.
 
