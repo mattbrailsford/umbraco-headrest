@@ -8,7 +8,8 @@ namespace Our.Umbraco.HeadRest.Web.Routing
             : base(slug)
         { }
 
-        public override void Resolve(ICollection<string> routes, int nodeId, HeadRestRoutesResolverContext context)
+        public override void Resolve(ICollection<string> routes, int nodeId, string contentTypeAlias,
+            HeadRestRoutesResolverContext context)
         {
             routes.Add(context.UmbracoContext.UrlProvider.GetUrl(nodeId));
         }

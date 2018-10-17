@@ -22,13 +22,13 @@ namespace Our.Umbraco.HeadRest.Web.Routing
             {
                 if (int.TryParse(itterator.Current.Evaluate("string(@id)").ToString(), out int id))
                 {
-                    Resolve(routes, id, context);
+                    Resolve(routes, id, itterator.Current.Evaluate("string(@nodeTypeAlias)").ToString(), context);
                 }
             }
 
             return routes.ToArray();
         }
 
-        public abstract void Resolve(ICollection<string> routes, int nodeId, HeadRestRoutesResolverContext context);
+        public abstract void Resolve(ICollection<string> routes, int nodeId, string contentTypeAlias, HeadRestRoutesResolverContext context);
     }
 }
