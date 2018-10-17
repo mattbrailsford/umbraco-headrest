@@ -14,7 +14,7 @@ TBC
 ## Configuration
 HeadRest is configured using the `HeadRest.ConfigureEndpoint` helper inside an Umbraco `ApplicationEventHandler` like so:
 ````csharp 
-    public class Boostrap : ApplicationEventHandler
+    public class Bootstrap : ApplicationEventHandler
     {
         protected override void ApplicationStarted(UmbracoApplicationBase app, ApplicationContext ctx)
         {
@@ -71,7 +71,7 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
 
 **NB** Whilst the `ViewModelMappings` tells HeadRest which ViewModel to map a content model to, it does *not* tell it how to actually map the properties over. For this you will need to instruct the model mapper using it's predefined mapping approach, for example, with AutoMapper you will want to define your mappings in an `ApplicationEventHandler` like so:
 ````csharp 
-    public class Boostrap : ApplicationEventHandler
+    public class Bootstrap : ApplicationEventHandler
     {
         protected override void ApplicationStarted(UmbracoApplicationBase app, ApplicationContext ctx)
         {
