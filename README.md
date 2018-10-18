@@ -89,6 +89,7 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
 | Security | You are responsible for securing your API (Suggest [AuthU](https://github.com/mattbrailsford/umbraco-authu)) | Security baked in |
 | Back office UI | Potentially unused features visible | Unused features disabled |
 | Hosting | Installs to any Umbraco version (7.12+) | Umbraco Cloud service only |
+| Support | Limited community support | HQ Supported |
 
 ## Contributing To This Project
 
