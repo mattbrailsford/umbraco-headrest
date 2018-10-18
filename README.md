@@ -79,6 +79,16 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
         }
     }
 ````
+## How is HeadRest different to Umbraco Cloud?
+| | HeadRest | Umbraco Cloud |
+|-|----------|---------------|
+| Configuration | HeadRest requires configuring via a code based API so requires C# knowledge | Zero config required |
+| Maintenance | You are responsible for applying security patches / updates | Automatic updates |
+| Scalability | You are responsible for making the API scalable for your needs | Automatic scalability |
+| API | Fixed API based on compiled ViewModels | Flexible query language |
+| Security | You are responsible for securing your API (Suggest [AuthU](https://github.com/mattbrailsford/umbraco-authu)) | Security baked in |
+| Back office UI | Potentially unused features visible | Unused features disabled |
+| Hosting | Installs to any Umbraco version (7.12+) | Umbraco Cloud service only |
 
 ## Contributing To This Project
 
