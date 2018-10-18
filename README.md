@@ -90,6 +90,7 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
 | Back office UI | Potentially unused features visible | Unused features disabled |
 | Supports use of 3rd party packages | Yes | No |
 | Supports mixed install | Yes. You can have a headless API + website in one install | No. Headless only install |
+| Client libraries available | None. Roll your own | .NET Framework, .NET Core, Node.js |
 | Hosting | Installs to any Umbraco version (7.12+) | Umbraco Cloud service only |
 | Support | Limited community support | HQ Supported |
 
