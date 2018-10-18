@@ -88,7 +88,7 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
 | API | Fixed API based on compiled ViewModels | Flexible query language |
 | Security | You are responsible for securing your API (Suggest [AuthU](https://github.com/mattbrailsford/umbraco-authu)) | Security baked in |
 | Back office UI | Potentially unused features visible | Unused features disabled |
-| Supports 3rd party packages | Yes | No |
+| Supports use of 3rd party packages | Yes | No |
 | Supports mixed install | Yes. You can have a headless API + website in one install | No. Headless only install |
 | Hosting | Installs to any Umbraco version (7.12+) | Umbraco Cloud service only |
 | Support | Limited community support | HQ Supported |
