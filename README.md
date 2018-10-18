@@ -79,8 +79,8 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
         }
     }
 ````
-## How is HeadRest different to Umbraco Cloud?
-| | HeadRest | Umbraco Cloud |
+## How is HeadRest different to Umbraco Headless?
+| | HeadRest | Umbraco Headless |
 |-|----------|---------------|
 | Configuration | HeadRest requires configuring via a code based API so requires C# knowledge | Zero config required |
 | Maintenance | You are responsible for applying security patches / updates | Automatic updates |
