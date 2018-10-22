@@ -11,6 +11,11 @@ namespace Our.Umbraco.HeadRest
 {
     public static class HeadRest
     {
+        internal static string RoutePathKey = "path";
+        internal static string ControllerConfigKey = "headRestConfig";
+        internal static string RouteMapMatchKey = "HeadRestRouteMapMatch";
+        internal static string MappingContextKey = "HeadRestMappingContext";
+
         internal static ConcurrentDictionary<string, HeadRestConfig> Configs = new ConcurrentDictionary<string, HeadRestConfig>();
 
         public static void ConfigureEndpoint(HeadRestOptions options)
@@ -41,7 +46,7 @@ namespace Our.Umbraco.HeadRest
                 {
                     RouteTable.Routes.MapUmbracoRoute(
                         $"HeadRest_{config.BasePath.Trim('/').Replace("/", "_")}",
-                        config.BasePath.EnsureEndsWith("/").TrimStart("/") + "{*path}",
+                        config.BasePath.EnsureEndsWith("/").TrimStart("/") + "{*"+ RoutePathKey + "}",
                         new
                         {
                             controller = config.ControllerType.Name.TrimEnd("Controller"),

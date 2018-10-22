@@ -15,7 +15,7 @@ namespace Our.Umbraco.HeadRest.Web.Controllers
         {
             get
             {
-                return RouteData.Values["headRestConfig"] as IHeadRestConfig;
+                return RouteData.Values[HeadRest.ControllerConfigKey] as IHeadRestConfig;
             }
         }
 

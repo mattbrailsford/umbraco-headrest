@@ -22,10 +22,12 @@ namespace Our.Umbraco.HeadRest.Web.Routing
 
             if (requestContext?.RouteData?.Values != null)
             { 
-                if (requestContext.RouteData.Values.ContainsKey("path")
-                    && requestContext.RouteData.Values["path"] != null)
+                if (requestContext.RouteData.Values.ContainsKey(HeadRest.RoutePathKey)
+                    && requestContext.RouteData.Values[HeadRest.RoutePathKey] != null)
                 {
-                    var path = requestContext.RouteData.Values["path"].ToString();
+                    var path = requestContext.RouteData.Values[HeadRest.RoutePathKey].ToString();
+
+                    // Check for a configured custom route
                     if (_config.CustomRouteMappings != null)
                     {
                         var match = _config.CustomRouteMappings.GetRouteMapFor(path);
@@ -33,10 +35,11 @@ namespace Our.Umbraco.HeadRest.Web.Routing
                         {
                             path = match.Target;
 
-                            requestContext.RouteData.Values["HeadRestRouteMapMatch"] = match;
+                            requestContext.RouteData.Values.Add(HeadRest.RouteMapMatchKey, match);
                         }
                     }
                     
+                    // Construct xpath from path
                     var pathParts = path.Trim('/').Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var pathPart in pathParts)
                     {

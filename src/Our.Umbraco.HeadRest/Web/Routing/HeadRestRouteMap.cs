@@ -35,7 +35,7 @@ namespace Our.Umbraco.HeadRest.Web.Routing
 
             foreach (var map in _routeMaps)
             {
-                var match = Regex.Match(path, map.Pattern, RegexOptions.IgnoreCase);
+                var match = map.Pattern.Match(path);
                 if (match.Success)
                 {
                     return new HeadRestRouteMapMatch
@@ -75,12 +75,12 @@ namespace Our.Umbraco.HeadRest.Web.Routing
 
     public class HeadRestRouteMapInfo
     {
-        public string Pattern { get; set; }
+        public Regex Pattern { get; set; }
         public string Target { get; set; }
 
         public HeadRestRouteMapInfo(string pattern)
         {
-            Pattern = pattern;
+            Pattern = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
     }
 

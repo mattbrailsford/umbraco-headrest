@@ -48,10 +48,10 @@ namespace Our.Umbraco.HeadRest.Web.Extensions
             if (request.RequestContext?.RouteData?.Values == null)
                 return null;
 
-            if (!request.RequestContext.RouteData.Values.ContainsKey("HeadRestRouteMapMatch"))
+            if (!request.RequestContext.RouteData.Values.ContainsKey(HeadRest.RouteMapMatchKey))
                 return null;
 
-            var routeMap = request.RequestContext.RouteData.Values["HeadRestRouteMapMatch"] as HeadRestRouteMapMatch;
+            var routeMap = request.RequestContext.RouteData.Values[HeadRest.RouteMapMatchKey] as HeadRestRouteMapMatch;
 
             return routeMap?.Params;
         }

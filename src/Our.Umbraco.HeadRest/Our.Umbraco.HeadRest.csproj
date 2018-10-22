@@ -220,6 +220,7 @@
     <Compile Include="Web\Controllers\AuthorizedHeadRestController.cs" />
     <Compile Include="Web\Controllers\HeadRestController.cs" />
     <Compile Include="Web\Extensions\HttpRequestBaseExtensions.cs" />
+    <Compile Include="Web\Extensions\ResolutionContextExtensions.cs" />
     <Compile Include="Web\Mapping\HeadRestMappingContext.cs" />
     <Compile Include="Web\Mapping\HeadRestViewModelMap.cs" />
     <Compile Include="Web\Models\NotFoundPublishedContent.cs" />

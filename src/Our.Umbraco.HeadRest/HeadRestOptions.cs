@@ -18,7 +18,7 @@ namespace Our.Umbraco.HeadRest
             ControllerType = typeof(HeadRestController);
             Mapper = (ctx) => AutoMapper.Mapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType, opts =>
             {
-                opts.Items["HeadRestMappingContext"] = ctx;
+                opts.Items[HeadRest.MappingContextKey] = ctx;
             });
         }
     }
