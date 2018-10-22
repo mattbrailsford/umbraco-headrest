@@ -42,7 +42,9 @@ For a more advanced implementation, the following configuration shows all the su
         ControllerType = typeof(HeadRestController),
         Mapper = ctx => AutoMapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType),
         ViewModelMappings = new new HeadRestViewModelMap()
-            .For(HomePage.ModelTypeAlias).If(x => x.Request.HeadRestRouteParam("altRoute") == "init").MapTo<InitViewModel>()
+            .For(HomePage.ModelTypeAlias)
+                .If(x => x.Request.HeadRestRouteParam("altRoute") == "init")
+                .MapTo<InitViewModel>()
             .For(HomePage.ModelTypeAlias).MapTo<HomePageViewModel>()
             ...
         CustomRouteMappings = new HeadRestRouteMap()
