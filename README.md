@@ -46,7 +46,7 @@ For a more advanced implementation, the following configuration shows all the su
                 .If(x => x.Request.HeadRestRouteParam("altRoute") == "init")
                 .MapTo<InitViewModel>()
             .For(HomePage.ModelTypeAlias).MapTo<HomePageViewModel>()
-            ...
+            ...,
         CustomRouteMappings = new HeadRestRouteMap()
             .For("/(?<altRoute>init)/?$").MapTo("/")
     });
