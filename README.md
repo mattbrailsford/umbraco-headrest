@@ -70,7 +70,7 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
   _[required, default:null]_  
   A fluent list of mappings to determine which ViewModel a given content type should be mapped to. Multiple mappings can be defined for the same content type by defining a condition for the mapping via the flient `.If(...)` interface. Any conditional mappings should be defined before any non-conditional (fallback) mappings.
 * __CustomRouteMappings : HeadRestRouteMap__   
-  _[required, default:null]_  
+  _[optional, default:null]_  
   A fluent list of custom route mappings to map any custom routes to a standard built in route. Routes are defined as regex patterns with any captured paramters being made accessible via a `HeadRestRouteParam` extension on the standard `Request` object. Usefull to support multiple routes pointing to the same endpoint URL, or for things like pagination URLs.
 
 **NB** Whilst the `ViewModelMappings` tells HeadRest which ViewModel to map a content model to, it does *not* tell it how to actually map the properties over. For this you will need to instruct the model mapper using it's predefined mapping approach, for example, with AutoMapper you will want to define your mappings in an `ApplicationEventHandler` like so:
