@@ -51,7 +51,7 @@ For a more advanced implementation, the following configuration shows all the su
             .For("/(?<altRoute>init)/?$").MapTo("/")
     });
 ````
-This will create an endpoint at the url `/api/`, and will be anchored to the node at the XPath `/root//nodeTypeAlias[1]`. In addition, the supplied controller will be used to handle the HeadRest requests and the supplied mapper function will be used to perform the mapping. It will use the list of `ViewModelMappings` provided to lookup the viewmodel to map a given node to. Lastly, a custom route is defined to map the url`/api/init/` to the `/api/` URL, storing the string `"init"`, captures via the route pattern, which is then used in the `ViewModelMappings` to map `/api/init/` request to the `InitViewModel` instead of the default `HomePageViewModel`.
+This will create an endpoint at the url `/api/`, and will be anchored to the node at the XPath `/root//nodeTypeAlias[1]`. In addition, the supplied controller will be used to handle the HeadRest requests and the supplied mapper function will be used to perform the mapping. It will use the list of `ViewModelMappings` provided to lookup the viewmodel to map a given node to. Lastly, a custom route is defined to map the url`/api/init/` to the `/api/` URL, storing the string `"init"`, captured via the route pattern, which is then used in the `ViewModelMappings` to map `/api/init/` request to the `InitViewModel` instead of the default `HomePageViewModel`.
 
 ### Configuration Options
 * __basePath : string__   
