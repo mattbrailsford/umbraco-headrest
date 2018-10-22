@@ -42,12 +42,14 @@ For a more advanced implementation, the following configuration shows all the su
         ControllerType = typeof(HeadRestController),
         Mapper = ctx => AutoMapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType),
         ViewModelMappings = new new HeadRestViewModelMap()
+            .For(HomePage.ModelTypeAlias).If(x => x.Request.HeadRestRouteParam("altRoute") == "init").MapTo<InitViewModel>()
             .For(HomePage.ModelTypeAlias).MapTo<HomePageViewModel>()
             ...
-        RoutesResolver = new DefaultHeadRestRoutesResoler("routes")
+        CustomRouteMappings = new HeadRestRouteMap()
+            .For("/(?<altRoute>init)/?$").MapTo("/")
     });
 ````
-This will create an endpoint at the url `/api/`, and will be anchored to the node at the XPath `/root//nodeTypeAlias[1]`. In addition, the supplied controller will be used to handle the HeadRest requests and the supplied mapper function will be used to perform the mapping. It will use the list of `ViewModelMappings` provided to lookup the viewmodel to map a given node to. Lastly, a list of available routes will be available at the `/api/routes/` URL as resolved by the `DefaultHeadRestRoutesResoler`. 
+This will create an endpoint at the url `/api/`, and will be anchored to the node at the XPath `/root//nodeTypeAlias[1]`. In addition, the supplied controller will be used to handle the HeadRest requests and the supplied mapper function will be used to perform the mapping. It will use the list of `ViewModelMappings` provided to lookup the viewmodel to map a given node to. Lastly, a custom route is defined to map the url`/api/init/` to the `/api/` URL, storing the string `"init"`, captures via the route pattern, which is then used in the `ViewModelMappings` to map `/api/init/` request to the `InitViewModel` instead of the default `HomePageViewModel`.
 
 ### Configuration Options
 * __basePath : string__   
@@ -64,10 +66,10 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
   A function to perform the map between the nodes ModelsBuilder model and it's associated ViewModel. Defaults to using AutoMapper.
 * __ViewModelMappings : HeadRestViewModelMap__   
   _[required, default:null]_  
-  A fluent list of mappings to determine which ViewModel a given content type should be mapped to.
-* __RoutesResolver : HeadRestRoutesResolver__   
-  _[optional, default:new DefaultHeadRestRoutesResoler("routes")]_  
-  A resolver to use to retrieve a list of available routes for the endpoint, and the slug from which to access the list. By default HeadRest uses `DefaultHeadRestRoutesResoler` which resolves individiual URL's from the XML cache.
+  A fluent list of mappings to determine which ViewModel a given content type should be mapped to. Multiple mappings can be defined for the same content type by defining a condition for the mapping via the flient `.If(...)` interface. Any conditional mappings should be defined before any non-conditional (fallback) mappings.
+* __CustomRouteMappings : HeadRestRouteMap__   
+  _[required, default:null]_  
+  A fluent list of custom route mappings to map any custom routes to a standard built in route. Routes are defined as regex patterns with any captured paramters being made accessible via a `HeadRestRouteParam` extension on the standard `Request` object. Usefull to support multiple routes pointing to the same endpoint URL, or for things like pagination URLs.
 
 **NB** Whilst the `ViewModelMappings` tells HeadRest which ViewModel to map a content model to, it does *not* tell it how to actually map the properties over. For this you will need to instruct the model mapper using it's predefined mapping approach, for example, with AutoMapper you will want to define your mappings in an `ApplicationEventHandler` like so:
 ````csharp 

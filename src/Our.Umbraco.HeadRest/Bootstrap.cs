@@ -3,6 +3,8 @@ using Umbraco.Core;
 using Our.Umbraco.HeadRest.Mapping;
 using Umbraco.Web.Routing;
 using Our.Umbraco.HeadRest.Web.Routing;
+using System.Web.Routing;
+using Umbraco.Web;
 
 namespace Our.Umbraco.HeadRest
 {
@@ -20,7 +22,8 @@ namespace Our.Umbraco.HeadRest
         }
 
         private void InitRouting()
-        {
+        { 
+            RouteTable.Routes.IgnoreStandardExclusions();
             UrlProviderResolver.Current.InsertTypeBefore<DefaultUrlProvider, HeadRestUrlProvider>();
         }
     }

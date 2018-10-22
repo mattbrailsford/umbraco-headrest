@@ -4,9 +4,7 @@ using Umbraco.Web.Mvc;
 using Our.Umbraco.HeadRest.Web.Mvc;
 using Our.Umbraco.HeadRest.Web.Mapping;
 using Our.Umbraco.HeadRest.Interfaces;
-using Umbraco.Core;
 using Our.Umbraco.HeadRest.Web.Models;
-using Our.Umbraco.HeadRest.Web.Routing;
 
 namespace Our.Umbraco.HeadRest.Web.Controllers
 {
@@ -34,25 +32,20 @@ namespace Our.Umbraco.HeadRest.Web.Controllers
                 };
             }
 
-            // Check for routes request
-            if (Config.RoutesResolver != null && RouteData.Values["path"] != null)
-            {
-                var path = RouteData.Values["path"].ToString();
-                if (Config.RoutesResolver.Slug.Trim('/').InvariantEquals(path.Trim('/')))
-                {
-                    return Routes(model);
-                }
-            }
-
             // Process the model mapping request
             var contentTypeAlias = model.Content.DocumentTypeAlias;
-            var viewModelType = Config.ViewModelMappings.GetViewModelTypeFor(contentTypeAlias);
+            var viewModelType = Config.ViewModelMappings.GetViewModelTypeFor(contentTypeAlias, new HeadRestPreMappingContext
+            {
+                Request = Request,
+                HttpContext = HttpContext,
+                UmbracoContext = UmbracoContext
+            });
+
             var viewModel = Config.Mapper.Invoke(new HeadRestMappingContext
             {
                 Content = model.Content,
                 ContentType = model.Content.GetType(),
                 ViewModelType = viewModelType,
-
                 Request = Request,
                 HttpContext = HttpContext,
                 UmbracoContext = UmbracoContext
@@ -61,20 +54,6 @@ namespace Our.Umbraco.HeadRest.Web.Controllers
             return new HeadRestResult
             {
                 Data = viewModel
-            };
-        }
-
-        protected virtual ActionResult Routes(RenderModel model)
-        {
-            var routes = Config.RoutesResolver.ResolveRoutes(new HeadRestRoutesResolverContext
-            {
-                UmbracoContext = UmbracoContext,
-                RootContent = model.Content
-            });
-
-            return new HeadRestResult
-            {
-                Data = routes
             };
         }
     }

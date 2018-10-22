@@ -219,16 +219,16 @@
     <Compile Include="HeadRest.cs" />
     <Compile Include="Web\Controllers\AuthorizedHeadRestController.cs" />
     <Compile Include="Web\Controllers\HeadRestController.cs" />
+    <Compile Include="Web\Extensions\HttpRequestBaseExtensions.cs" />
     <Compile Include="Web\Mapping\HeadRestMappingContext.cs" />
     <Compile Include="Web\Mapping\HeadRestViewModelMap.cs" />
     <Compile Include="Web\Models\NotFoundPublishedContent.cs" />
     <Compile Include="Web\Mvc\HeadRestExceptionFilterAttribute.cs" />
     <Compile Include="Web\Mvc\HeadRestResult.cs" />
     <Compile Include="Web\Mvc\HeadRestAuthorizeAttribute.cs" />
-    <Compile Include="Web\Routing\DefaultHeadRestRoutesResolver.cs" />
     <Compile Include="Web\Routing\HeadRestRouteHandler.cs" />
-    <Compile Include="Web\Routing\HeadRestRoutesResolver.cs" />
-    <Compile Include="Web\Routing\HeadRestRoutesResolverContext.cs" />
+    <Compile Include="Web\Routing\HeadRestRouteMap.cs" />
+    <Compile Include="Web\Routing\HeadRestRouteParamsCollection.cs" />
     <Compile Include="Web\Routing\HeadRestUrlProvider.cs" />
   </ItemGroup>
   <ItemGroup>

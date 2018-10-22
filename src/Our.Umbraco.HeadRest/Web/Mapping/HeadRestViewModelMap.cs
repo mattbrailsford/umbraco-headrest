@@ -5,55 +5,81 @@ namespace Our.Umbraco.HeadRest.Web.Mapping
 {
     public class HeadRestViewModelMap
     {
-        private IDictionary<string, Type> _viewModels;
-        private HeadRestViewModelForMap _for;
+        private IList<HeadRestViewModelMapInfo> _modelMaps;
+        private HeadRestViewModelMapping _mapping;
 
         public HeadRestViewModelMap()
         {
-            _viewModels = new Dictionary<string, Type>();
-            _for = new HeadRestViewModelForMap(this);
+            _modelMaps = new List<HeadRestViewModelMapInfo>();
+            _mapping = new HeadRestViewModelMapping(this);
         }
 
-        public HeadRestViewModelForMap For(string contentTypeAlias)
+        public HeadRestViewModelMapping For(string contentTypeAlias)
         {
-            _for.ContentTypeAlias = contentTypeAlias;
-            return _for;
+            _mapping.Reset(new HeadRestViewModelMapInfo(contentTypeAlias));
+            return _mapping;
         }
 
-        internal void AddViewModelMap(string contentTypeAlias, Type viewModelType)
+        internal void AddViewModelMap(HeadRestViewModelMapInfo viewModelMap)
         {
-            _viewModels.Add(contentTypeAlias, viewModelType);
+            _modelMaps.Add(viewModelMap);
         }
 
-        internal bool HasViewModelTypeFor(string contentTypeAlias)
+        internal Type GetViewModelTypeFor(string contentTypeAlias, HeadRestPreMappingContext ctx)
         {
-            return _viewModels.ContainsKey(contentTypeAlias);
-        }
-
-        internal Type GetViewModelTypeFor(string contentTypeAlias)
-        {
-            return HasViewModelTypeFor(contentTypeAlias)
-                ? _viewModels[contentTypeAlias]
-                : null;
+            foreach(var map in _modelMaps)
+            {
+                if (map.ContentTypeAlias == contentTypeAlias && map.Condition.Invoke(ctx))
+                {
+                    return map.ViewModelType;
+                }
+            }
+            return null;
         }
     }
 
-    public class HeadRestViewModelForMap
+    public class HeadRestViewModelMapping
     {
         private HeadRestViewModelMap _modelMap;
 
-        internal string ContentTypeAlias { get; set; }
+        private HeadRestViewModelMapInfo _mapInfo { get; set; }
 
-        internal HeadRestViewModelForMap(HeadRestViewModelMap modelMap)
+        internal HeadRestViewModelMapping(HeadRestViewModelMap modelMap)
         {
             _modelMap = modelMap;
+        }
+
+        internal HeadRestViewModelMapping Reset(HeadRestViewModelMapInfo mapInfo)
+        {
+            _mapInfo = mapInfo;
+            return this;
+        }
+
+        public HeadRestViewModelMapping If(Func<HeadRestPreMappingContext, bool> condition)
+        {
+            _mapInfo.Condition = condition;
+            return this;
         }
 
         public HeadRestViewModelMap MapTo<TViewModel>()
             where TViewModel : class
         {
-            _modelMap.AddViewModelMap(ContentTypeAlias, typeof(TViewModel));
+            _mapInfo.ViewModelType = typeof(TViewModel);
+            _modelMap.AddViewModelMap(_mapInfo);
             return _modelMap;
+        }
+    }
+
+    internal class HeadRestViewModelMapInfo
+    {
+        public string ContentTypeAlias { get; set; }
+        public Func<HeadRestPreMappingContext, bool> Condition { get; set; }
+        public Type ViewModelType { get; set; }
+
+        public HeadRestViewModelMapInfo(string contentTypeAlias)
+        {
+            ContentTypeAlias = contentTypeAlias;
+            Condition = (ctx) => true;
         }
     }
 }

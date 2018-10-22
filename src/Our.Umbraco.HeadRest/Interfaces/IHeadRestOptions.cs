@@ -9,6 +9,6 @@ namespace Our.Umbraco.HeadRest.Interfaces
         Type ControllerType { get; }
         Func<HeadRestMappingContext, object> Mapper { get; }
         HeadRestViewModelMap ViewModelMappings { get; }
-        HeadRestRoutesResolver RoutesResolver { get; }
+        HeadRestRouteMap CustomRouteMappings { get; }
     }
 }

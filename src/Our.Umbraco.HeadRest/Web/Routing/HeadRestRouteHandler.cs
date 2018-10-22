@@ -1,6 +1,6 @@
 ﻿using Our.Umbraco.HeadRest.Web.Models;
+using System;
 using System.Web.Routing;
-using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 using Umbraco.Web.Mvc;
@@ -20,13 +20,24 @@ namespace Our.Umbraco.HeadRest.Web.Routing
         {
             var nodeXPath = _config.RootNodeXPath;
 
-            if (requestContext.RouteData.Values.ContainsKey("path")
-                && requestContext.RouteData.Values["path"] != null)
-            {
-                var path = requestContext.RouteData.Values["path"].ToString().Trim('/');
-                if (_config.RoutesResolver == null || !path.InvariantEquals(_config.RoutesResolver.Slug.Trim('/')))
+            if (requestContext?.RouteData?.Values != null)
+            { 
+                if (requestContext.RouteData.Values.ContainsKey("path")
+                    && requestContext.RouteData.Values["path"] != null)
                 {
-                    var pathParts = requestContext.RouteData.Values["path"].ToString().Trim('/').Split('/');
+                    var path = requestContext.RouteData.Values["path"].ToString();
+                    if (_config.CustomRouteMappings != null)
+                    {
+                        var match = _config.CustomRouteMappings.GetRouteMapFor(path);
+                        if (match != null)
+                        {
+                            path = match.Target;
+
+                            requestContext.RouteData.Values["HeadRestRouteMapMatch"] = match;
+                        }
+                    }
+                    
+                    var pathParts = path.Trim('/').Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var pathPart in pathParts)
                     {
                         nodeXPath += $"/*[@urlName='{pathPart}'][1]";

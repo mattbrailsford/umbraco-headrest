@@ -11,7 +11,7 @@ namespace Our.Umbraco.HeadRest
         public Type ControllerType { get; set; }
         public Func<HeadRestMappingContext, object> Mapper { get; set; }
         public HeadRestViewModelMap ViewModelMappings { get; set; }
-        public HeadRestRoutesResolver RoutesResolver { get; set; }
+        public HeadRestRouteMap CustomRouteMappings { get; set; }
 
         public HeadRestOptions()
         {
@@ -20,7 +20,6 @@ namespace Our.Umbraco.HeadRest
             {
                 opts.Items["HeadRestMappingContext"] = ctx;
             });
-            RoutesResolver = new DefaultHeadRestRoutesResolver("routes");
         }
     }
 }
