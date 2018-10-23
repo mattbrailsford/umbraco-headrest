@@ -1,4 +1,4 @@
-<img src="assets/logo.png" alt="HeadRest" width="150"/>
+<img src="assets/logo.png" alt="HeadRest" width="200"/>
 
 # HeadRest
 A REST based headless approach for Umbraco.
