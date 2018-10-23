@@ -26,7 +26,7 @@
 		<PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>		
 		<RequireLicenseAcceptance>false</RequireLicenseAcceptance>
 		<ProjectUrl>https://github.com/mattbrailsford/umbraco-headrest</ProjectUrl>
-		<IconUrl>https://raw.githubusercontent.com/mattbrailsford/umbraco-headrest/master/docs/img/logo.png</IconUrl>
+		<IconUrl>https://raw.githubusercontent.com/mattbrailsford/umbraco-headrest/master/assets/logo.png</IconUrl>
 		<Tags>umbraco rest headless</Tags>
 		<Language>en-GB</Language>
 	</PropertyGroup>

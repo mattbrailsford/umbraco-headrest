@@ -1,3 +1,5 @@
+<img src="assets/logo.png" alt="HeadRest" style="width: 150px;"/>
+
 # HeadRest
 A REST based headless approach for Umbraco.
 
