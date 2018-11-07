@@ -211,6 +211,7 @@
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
     <Compile Include="HeadRestConfig.cs" />
+    <Compile Include="HeadRestEndpointMode.cs" />
     <Compile Include="HeadRestOptions.cs" />
     <Compile Include="Interfaces\IHeadRestConfig.cs" />
     <Compile Include="Interfaces\IHeadRestOptions.cs" />

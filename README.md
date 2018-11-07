@@ -41,6 +41,7 @@ This will create an API endpoint at the path `/`, and will be anchored to the fi
 For a more advanced implementation, the following configuration shows all the supported options.
 ````csharp 
     HeadRest.ConfigureEndpoint("/api/", "/root//nodeTypeAlias[1]", new HeadRestOptions {
+        Mode = HeadRestEndpointMode.Dedicated,
         ControllerType = typeof(HeadRestController),
         Mapper = ctx => AutoMapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType),
         ViewModelMappings = new new HeadRestViewModelMap()
@@ -62,6 +63,9 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
 * __rootNodeXPath : string__   
   _[optional, default:"/root/*[@isDoc][1]"]_  
   The XPath statement for the root node from which to anchor your API endpoint to.
+* __Mode : HeadRestEndpointMode__   
+  _[optional, default:HeadRestEndpointMode.Dedicated]_  
+  The mode in which the headrest endpoint will run. Can be either `HeadRestEndpointMode.Dedicated`, in which case the generated endpoint URLs will be the primary URLs for the relevant content nodes, or `HeadRestEndpointMode.Mixed`, in which case node will maintain their primary URLs and the endpoint URLs will be added to the nodes "Other URLs" collection.
 * __ControllerType : Type__   
   _[optional, default:typeof(HeadRestController)]_  
   The Controller to use to service the API requests. Controllers must inherit from `HeadRestController`. Useful to add extra FilterAttributes to the request such as AuthU and the `OAuth` attribute.
