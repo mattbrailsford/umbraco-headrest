@@ -8,6 +8,7 @@ namespace Our.Umbraco.HeadRest
 {
     public class HeadRestOptions : IHeadRestOptions
     {
+        public HeadRestEndpointMode Mode { get; set; }
         public Type ControllerType { get; set; }
         public Func<HeadRestMappingContext, object> Mapper { get; set; }
         public HeadRestViewModelMap ViewModelMappings { get; set; }
@@ -15,6 +16,7 @@ namespace Our.Umbraco.HeadRest
 
         public HeadRestOptions()
         {
+            Mode = HeadRestEndpointMode.Dedicated;
             ControllerType = typeof(HeadRestController);
             Mapper = (ctx) => AutoMapper.Mapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType, opts =>
             {

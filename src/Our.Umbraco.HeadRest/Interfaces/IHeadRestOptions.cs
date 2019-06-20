@@ -6,6 +6,7 @@ namespace Our.Umbraco.HeadRest.Interfaces
 {
     public interface IHeadRestOptions
     {
+        HeadRestEndpointMode Mode { get; }
         Type ControllerType { get; }
         Func<HeadRestMappingContext, object> Mapper { get; }
         HeadRestViewModelMap ViewModelMappings { get; }
