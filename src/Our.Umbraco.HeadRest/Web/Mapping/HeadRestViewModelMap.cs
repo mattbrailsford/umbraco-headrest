@@ -94,10 +94,11 @@ namespace Our.Umbraco.HeadRest.Web.Mapping
             _modelMap = modelMap;
         }
 
-        public void MapTo<TViewModel>()
+        public HeadRestViewModelMap MapTo<TViewModel>()
             where TViewModel : class
         {
             _modelMap.SetDefaultViewModelMapType(typeof(TViewModel));
+            return _modelMap;
         }
     }
 
