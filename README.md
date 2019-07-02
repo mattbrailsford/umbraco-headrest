@@ -49,7 +49,7 @@ For a more advanced implementation, the following configuration shows all the su
                 .If(x => x.Request.HeadRestRouteParam("altRoute") == "init")
                 .MapTo<InitViewModel>()
             .For(HomePage.ModelTypeAlias).MapTo<HomePageViewModel>()
-            ...,
+            .Default().MapTo<BasicViewModel>(),
         CustomRouteMappings = new HeadRestRouteMap()
             .For("/(?<altRoute>init)/?$").MapTo("/")
     });
@@ -74,7 +74,7 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
   A function to perform the map between the nodes ModelsBuilder model and it's associated ViewModel. Defaults to using AutoMapper.
 * __ViewModelMappings : HeadRestViewModelMap__   
   _[required, default:null]_  
-  A fluent list of mappings to determine which ViewModel a given content type should be mapped to. Multiple mappings can be defined for the same content type by defining a condition for the mapping via the flient `.If(...)` interface. Any conditional mappings should be defined before any non-conditional (fallback) mappings.
+  A fluent list of mappings to determine which ViewModel a given content type should be mapped to. Multiple mappings can be defined for the same content type by defining a condition for the mapping via the flient `.If(...)` interface. Any conditional mappings should be defined before any non-conditional (fallback) mappings. You can set a default map that will be used if no other matching maps are found by using the `.Default().MapTo<Type>()` syntax. If a default map is defined, it must be the last map defined.
 * __CustomRouteMappings : HeadRestRouteMap__   
   _[optional, default:null]_  
   A fluent list of custom route mappings to map any custom routes to a standard built in route. Routes are defined as regex patterns with any captured paramters being made accessible via a `HeadRestRouteParam` extension on the standard `Request` object. Usefull to support multiple routes pointing to the same endpoint URL, or for things like pagination URLs.

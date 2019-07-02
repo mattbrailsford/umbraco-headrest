@@ -7,11 +7,15 @@ namespace Our.Umbraco.HeadRest.Web.Mapping
     {
         private IList<HeadRestViewModelMapInfo> _modelMaps;
         private HeadRestViewModelMapping _mapping;
+        private HeadRestDefaultModelMapping _defaultMapping;
+        private Type _defaultViewModelMapType;
 
         public HeadRestViewModelMap()
         {
             _modelMaps = new List<HeadRestViewModelMapInfo>();
             _mapping = new HeadRestViewModelMapping(this);
+            _defaultMapping = new HeadRestDefaultModelMapping(this);
+            _defaultViewModelMapType = null;
         }
 
         public HeadRestViewModelMapping For(string contentTypeAlias)
@@ -20,9 +24,19 @@ namespace Our.Umbraco.HeadRest.Web.Mapping
             return _mapping;
         }
 
+        public HeadRestDefaultModelMapping Default()
+        {
+            return _defaultMapping;
+        }
+
         internal void AddViewModelMap(HeadRestViewModelMapInfo viewModelMap)
         {
             _modelMaps.Add(viewModelMap);
+        }
+
+        internal void SetDefaultViewModelMapType(Type defaultViewModelMapType)
+        {
+            _defaultViewModelMapType = defaultViewModelMapType;
         }
 
         internal Type GetViewModelTypeFor(string contentTypeAlias, HeadRestPreMappingContext ctx)
@@ -34,7 +48,8 @@ namespace Our.Umbraco.HeadRest.Web.Mapping
                     return map.ViewModelType;
                 }
             }
-            return null;
+
+            return _defaultViewModelMapType;
         }
     }
 
@@ -67,6 +82,22 @@ namespace Our.Umbraco.HeadRest.Web.Mapping
             _mapInfo.ViewModelType = typeof(TViewModel);
             _modelMap.AddViewModelMap(_mapInfo);
             return _modelMap;
+        }
+    }
+
+    public class HeadRestDefaultModelMapping
+    {
+        private HeadRestViewModelMap _modelMap;
+
+        internal HeadRestDefaultModelMapping(HeadRestViewModelMap modelMap)
+        {
+            _modelMap = modelMap;
+        }
+
+        public void MapTo<TViewModel>()
+            where TViewModel : class
+        {
+            _modelMap.SetDefaultViewModelMapType(typeof(TViewModel));
         }
     }
 
