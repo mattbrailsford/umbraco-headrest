@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 
 namespace Our.Umbraco.HeadRest.Web.Models
@@ -66,17 +67,17 @@ namespace Our.Umbraco.HeadRest.Web.Models
 
         public string UrlSegment => null;
 
-        public IReadOnlyDictionary<string, PublishedCultureInfo> Cultures => null;
+        public IReadOnlyDictionary<string, PublishedCultureInfo> Cultures => new Dictionary<string, PublishedCultureInfo>();
 
-        public IEnumerable<IPublishedContent> ChildrenForAllCultures => null;
+        public IEnumerable<IPublishedContent> ChildrenForAllCultures => Enumerable.Empty<IPublishedContent>();
 
         public Guid Key => Guid.Empty;
 
         int? IPublishedContent.TemplateId => null;
 
-        IPublishedContentType IPublishedElement.ContentType => null;
+        IPublishedContentType IPublishedElement.ContentType => new NotFoundPublishedContentType();
 
-        IEnumerable<IPublishedProperty> IPublishedElement.Properties => null;
+        IEnumerable<IPublishedProperty> IPublishedElement.Properties => Enumerable.Empty<IPublishedProperty>();
 
         public int GetIndex() => 0;
 
@@ -87,5 +88,28 @@ namespace Our.Umbraco.HeadRest.Web.Models
         public bool IsPublished(string culture = null) => true;
 
         bool IPublishedContent.IsDraft(string culture) => false;
+    }
+
+    internal class NotFoundPublishedContentType : IPublishedContentType
+    {
+        public int Id => 0;
+
+        public string Alias => "404";
+
+        public PublishedItemType ItemType => PublishedItemType.Unknown;
+
+        public HashSet<string> CompositionAliases => new HashSet<string>();
+
+        public ContentVariation Variations => ContentVariation.Nothing;
+
+        public bool IsElement => false;
+
+        public IEnumerable<IPublishedPropertyType> PropertyTypes => Enumerable.Empty<IPublishedPropertyType>();
+
+        public int GetPropertyIndex(string alias) => -1;
+
+        public IPublishedPropertyType GetPropertyType(string alias) => null;
+
+        public IPublishedPropertyType GetPropertyType(int index) => null;
     }
 }
