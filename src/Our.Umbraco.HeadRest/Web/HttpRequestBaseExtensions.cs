@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 
-namespace Our.Umbraco.HeadRest.Web.Extensions
+namespace Our.Umbraco.HeadRest.Web
 {
     public static class HttpRequestBaseExtensions
     {

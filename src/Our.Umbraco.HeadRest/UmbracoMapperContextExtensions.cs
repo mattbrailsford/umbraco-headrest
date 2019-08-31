@@ -1,7 +1,7 @@
 ﻿using Our.Umbraco.HeadRest.Web.Mapping;
 using Umbraco.Core.Mapping;
 
-namespace Our.Umbraco.HeadRest.Web.Extensions
+namespace Our.Umbraco.HeadRest
 {
     public static class MapperContextExtensions
     {

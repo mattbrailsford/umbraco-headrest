@@ -257,8 +257,8 @@
     <Compile Include="HeadRest.cs" />
     <Compile Include="Web\Controllers\AuthorizedHeadRestController.cs" />
     <Compile Include="Web\Controllers\HeadRestController.cs" />
-    <Compile Include="Web\Extensions\HttpRequestBaseExtensions.cs" />
-    <Compile Include="Web\Extensions\MapperContextExtensions.cs" />
+    <Compile Include="Web\HttpRequestBaseExtensions.cs" />
+    <Compile Include="UmbracoMapperContextExtensions.cs" />
     <Compile Include="Web\Mapping\HeadRestMappingContext.cs" />
     <Compile Include="Web\Mapping\HeadRestViewModelMap.cs" />
     <Compile Include="Web\Models\NotFoundPublishedContent.cs" />
