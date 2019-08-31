@@ -23,6 +23,13 @@ namespace Our.Umbraco.HeadRest
             ControllerType = typeof(HeadRestController);
             Mapper = (ctx) => {
 
+                // Currently have to call the UmbracoMapper.Map function
+                // via reflection as there are no non-generic versions
+                // available, and as we only know types at runtime, this
+                // is the only way we can call them. We should keep an eye
+                // on https://github.com/umbraco/Umbraco-CMS/issues/6250
+                // and if this ever changes, we should switch to use the 
+                // map methods instead
                 var mapFunc = typeof(UmbracoMapper).GetMethods()
                     .First(m => m.Name == "Map" 
                         && m.GetGenericArguments().Count() == 1
