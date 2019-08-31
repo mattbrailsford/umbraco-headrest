@@ -14,7 +14,7 @@ Out of the box HeadRest is configured to use UmbracoMapper to perform it's mappi
 TBC
 
 ## Configuration
-In order to configure HeadRest you will first of all need to create an Umbraco composer + compontent combination, resolving the HeadRest factory from the DI container like so:
+In order to configure HeadRest you will first of all need to create an Umbraco composer + compontent combination, resolving the HeadRest service from the DI container like so:
 ````csharp
     public class HeadRestConfigComponent : IComponent
     {
@@ -35,7 +35,7 @@ In order to configure HeadRest you will first of all need to create an Umbraco c
     { }
 ````
 
-From within the `Initialize` method, you can then configure your endpoint(s) via the `ConfigureEndpoint` method on the resolved HeadRest factory instance:
+From within the `Initialize` method, you can then configure your endpoint(s) via the `ConfigureEndpoint` method on the resolved HeadRest service instance:
 ````csharp 
     ...
     _headRest.ConfigureEndpoint(...);
@@ -100,9 +100,12 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
 ````csharp 
     public class MyHeadRestMapDefinition : IMapDefinition
     {
-        mapper.Define<FromType, ToType>(
-            (frm, ctx) => ...,      // Constructor function
-            (frm, to, ctx) => ...   // Map function
+        public void DefineMaps(UmbracoMapper mapper)
+        {
+            mapper.Define<FromType, ToType>(
+                (frm, ctx) => ...,      // Constructor function
+                (frm, to, ctx) => ...   // Map function
+        }
     }
     
     public class MyHeadRestMapDefinisionComposer : IUserComposer
