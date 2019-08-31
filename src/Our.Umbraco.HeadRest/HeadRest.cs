@@ -83,7 +83,7 @@ namespace Our.Umbraco.HeadRest
 
     public class UmbracoRoutesConstraint : IRouteConstraint
     {
-        private readonly string[] ReservedPaths = new[]
+        private readonly string[] UmbracoReservedPaths = new[]
         {
             "^umbraco/.*",
             "^media/.*"
@@ -91,7 +91,7 @@ namespace Our.Umbraco.HeadRest
 
         public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
         {
-            return ReservedPaths.All(x => !Regex.IsMatch(("" + values["path"]), x));
+            return UmbracoReservedPaths.All(x => !Regex.IsMatch(("" + values["path"]), x));
         }
     }
 }
