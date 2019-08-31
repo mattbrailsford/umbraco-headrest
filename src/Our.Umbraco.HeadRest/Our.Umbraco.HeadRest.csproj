@@ -255,6 +255,7 @@
     <Compile Include="Mapping\HeadRestMapDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HeadRest.cs" />
+    <Compile Include="Web\Routing\UmbracoRoutesConstraint.cs" />
     <Compile Include="Web\Controllers\AuthorizedHeadRestController.cs" />
     <Compile Include="Web\Controllers\HeadRestController.cs" />
     <Compile Include="Web\HttpRequestBaseExtensions.cs" />

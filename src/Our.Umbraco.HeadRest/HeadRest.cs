@@ -6,9 +6,6 @@ using Umbraco.Core;
 using Our.Umbraco.HeadRest.Web.Routing;
 using Our.Umbraco.HeadRest.Web.Controllers;
 using Umbraco.Core.Mapping;
-using System.Web;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Our.Umbraco.HeadRest
 {
@@ -78,20 +75,6 @@ namespace Our.Umbraco.HeadRest
             {
                 throw new Exception("ViewModelMappings can not be null");
             }
-        }
-    }
-
-    public class UmbracoRoutesConstraint : IRouteConstraint
-    {
-        private readonly string[] UmbracoReservedPaths = new[]
-        {
-            "^umbraco/.*",
-            "^media/.*"
-        };
-
-        public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
-        {
-            return UmbracoReservedPaths.All(x => !Regex.IsMatch(("" + values["path"]), x));
         }
     }
 }
