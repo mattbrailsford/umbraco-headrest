@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 
 namespace Our.Umbraco.HeadRest.Web.Models
@@ -65,19 +64,28 @@ namespace Our.Umbraco.HeadRest.Web.Models
 
         public ICollection<IPublishedProperty> Properties => new Collection<IPublishedProperty>();
 
-        public int GetIndex()
-        {
-            return 0;
-        }
+        public string UrlSegment => null;
 
-        public IPublishedProperty GetProperty(string alias)
-        {
-            return null;
-        }
+        public IReadOnlyDictionary<string, PublishedCultureInfo> Cultures => null;
 
-        public IPublishedProperty GetProperty(string alias, bool recurse)
-        {
-            return null;
-        }
+        public IEnumerable<IPublishedContent> ChildrenForAllCultures => null;
+
+        public Guid Key => Guid.Empty;
+
+        int? IPublishedContent.TemplateId => null;
+
+        IPublishedContentType IPublishedElement.ContentType => null;
+
+        IEnumerable<IPublishedProperty> IPublishedElement.Properties => null;
+
+        public int GetIndex() => 0;
+
+        public IPublishedProperty GetProperty(string alias) => null;
+
+        public IPublishedProperty GetProperty(string alias, bool recurse) => null;
+
+        public bool IsPublished(string culture = null) => true;
+
+        bool IPublishedContent.IsDraft(string culture) => false;
     }
 }

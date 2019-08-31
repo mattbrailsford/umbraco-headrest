@@ -7,7 +7,7 @@ namespace Our.Umbraco.HeadRest.Web.Controllers
     public class AuthorizedHeadRestController : HeadRestController
     {
         [HeadRestAuthorize]
-        public override ActionResult Index(RenderModel model)
+        public override ActionResult Index(ContentModel model)
         {
             return base.Index(model);
         }
