@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Umbraco.Web.Models;
 using Umbraco.Web.Mvc;
 using Our.Umbraco.HeadRest.Web.Mvc;
@@ -40,6 +41,9 @@ namespace Our.Umbraco.HeadRest.Web.Controllers
                 HttpContext = HttpContext,
                 UmbracoContext = UmbracoContext
             });
+
+            if (viewModelType == null)
+                throw new InvalidOperationException($"No view model map found for type '{contentTypeAlias}' at route {Request.Url}");
 
             var viewModel = Config.Mapper.Invoke(new HeadRestMappingContext
             {
