@@ -24,6 +24,12 @@ namespace Our.Umbraco.HeadRest.Web.Mapping
             return _mapping;
         }
 
+        public HeadRestDefaultModelMapping ForEverythingElse()
+        {
+            return _defaultMapping;
+        }
+
+        [Obsolete("Use 'ForEverythingElse' instead")]
         public HeadRestDefaultModelMapping Default()
         {
             return _defaultMapping;
