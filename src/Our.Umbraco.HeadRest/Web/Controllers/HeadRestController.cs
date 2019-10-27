@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Umbraco.Web.Models;
 using Umbraco.Web.Mvc;
 using Our.Umbraco.HeadRest.Web.Mvc;
@@ -19,7 +20,7 @@ namespace Our.Umbraco.HeadRest.Web.Controllers
             }
         }
 
-        public override ActionResult Index(RenderModel model)
+        public override ActionResult Index(ContentModel model)
         {
             // Check for 404
             if (model.Content is NotFoundPublishedContent)
@@ -33,13 +34,16 @@ namespace Our.Umbraco.HeadRest.Web.Controllers
             }
 
             // Process the model mapping request
-            var contentTypeAlias = model.Content.DocumentTypeAlias;
+            var contentTypeAlias = model.Content.ContentType.Alias;
             var viewModelType = Config.ViewModelMappings.GetViewModelTypeFor(contentTypeAlias, new HeadRestPreMappingContext
             {
                 Request = Request,
                 HttpContext = HttpContext,
                 UmbracoContext = UmbracoContext
             });
+
+            if (viewModelType == null)
+                throw new InvalidOperationException($"No view model map found for type '{contentTypeAlias}' at route {Request.Url}");
 
             var viewModel = Config.Mapper.Invoke(new HeadRestMappingContext
             {

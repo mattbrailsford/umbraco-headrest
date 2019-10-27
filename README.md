@@ -5,30 +5,47 @@ A REST based headless approach for Umbraco.
 
 HeadRest converts your Umbraco front end into a REST API by passing ModelsBuilder models through a mapping function to create serializable ViewModels and returning them as JSON payloads. 
 
-Out of the box HeadRest is configured to use AutoMapper to perform it's mappings, however you can define your own custom mapper function to use other model mappers such as Ditto or UmbMapper.
+Out of the box HeadRest is configured to use UmbracoMapper to perform it's mappings, however you can define your own custom mapper function to use other model mappers such as AutoMapper.
 
 ## Installation
 
 ### Nuget
 
-TBC
+    PM> Install-Package Our.Umbraco.HeadRest
 
 ## Configuration
-HeadRest is configured using the `HeadRest.ConfigureEndpoint` helper inside an Umbraco `ApplicationEventHandler` like so:
-````csharp 
-    public class Bootstrap : ApplicationEventHandler
+In order to configure HeadRest you will first of all need to create an Umbraco composer + compontent combination, resolving the HeadRest service from the DI container like so:
+````csharp
+    public class HeadRestConfigComponent : IComponent
     {
-        protected override void ApplicationStarted(UmbracoApplicationBase app, ApplicationContext ctx)
+        private readonly HeadRest _headRest;
+
+        public HeadRestConfigComponent(HeadRest headRest) 
+            => _headRest = headRest;
+
+        public void Initialize()
         {
-            HeadRest.ConfigureEndpoint(...);
+            // Configuration goes here
         }
+
+        public void Terminate() { }
     }
+
+    public class HeadRestConfigComposer : ComponentComposer<HeadRestConfigComponent>
+    { }
+````
+
+From within the `Initialize` method, you can then configure your endpoint(s) via the `ConfigureEndpoint` method on the resolved HeadRest service instance:
+````csharp 
+    ...
+    _headRest.ConfigureEndpoint(...);
+    ...
 ````
 
 ### Basic Configuration
 For the most basic implementation, the following minimal configuration is all that is needed:
 ````csharp 
-    HeadRest.ConfigureEndpoint(new HeadRestOptions {
+    _headRest.ConfigureEndpoint(new HeadRestOptions {
         ViewModelMappings = new new HeadRestViewModelMap()
             .For(HomePage.ModelTypeAlias).MapTo<HomePageViewModel>()
             ...
@@ -40,7 +57,7 @@ This will create an API endpoint at the path `/`, and will be anchored to the fi
 ### Advanced Configuration
 For a more advanced implementation, the following configuration shows all the supported options.
 ````csharp 
-    HeadRest.ConfigureEndpoint("/api/", "/root//nodeTypeAlias[1]", new HeadRestOptions {
+    _headRest.ConfigureEndpoint("/api/", "/root//nodeTypeAlias[1]", new HeadRestOptions {
         Mode = HeadRestEndpointMode.Dedicated,
         ControllerType = typeof(HeadRestController),
         Mapper = ctx => AutoMapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType),
@@ -70,22 +87,33 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
   _[optional, default:typeof(HeadRestController)]_  
   The Controller to use to service the API requests. Controllers must inherit from `HeadRestController`. Useful to add extra FilterAttributes to the request such as AuthU and the `OAuth` attribute.
 * __Mapper : Func<HeadRestMapperContext, object>__   
-  _[optional, default:ctx => AutoMapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType)]_  
-  A function to perform the map between the nodes ModelsBuilder model and it's associated ViewModel. Defaults to using AutoMapper.
+  _[optional, default:ctx => UmbracoMapper.Map<ViewModelType>(ctx.Content)]_  
+  A function to perform the map between the nodes ModelsBuilder model and it's associated ViewModel. Defaults to using the build in UmbracoMapper.
 * __ViewModelMappings : HeadRestViewModelMap__   
   _[required, default:null]_  
-  A fluent list of mappings to determine which ViewModel a given content type should be mapped to. Multiple mappings can be defined for the same content type by defining a condition for the mapping via the flient `.If(...)` interface. Any conditional mappings should be defined before any non-conditional (fallback) mappings. You can set a default map that will be used if no other matching maps are found by using the `.Default().MapTo<Type>()` syntax. If a default map is defined, it must be the last map defined.
+  A fluent list of mappings to determine which ViewModel a given content type should be mapped to. Multiple mappings can be defined for the same content type by defining a condition for the mapping via the flient `.If(...)` interface. Any conditional mappings should be defined before any non-conditional (fallback) mappings. You can set a default map that will be used if no other matching maps are found by using the `.ForEverythingElse().MapTo<Type>()` syntax. If a default map is defined, it must be the last map defined.
 * __CustomRouteMappings : HeadRestRouteMap__   
   _[optional, default:null]_  
   A fluent list of custom route mappings to map any custom routes to a standard built in route. Routes are defined as regex patterns with any captured paramters being made accessible via a `HeadRestRouteParam` extension on the standard `Request` object. Usefull to support multiple routes pointing to the same endpoint URL, or for things like pagination URLs.
 
-**NB** Whilst the `ViewModelMappings` tells HeadRest which ViewModel to map a content model to, it does *not* tell it how to actually map the properties over. For this you will need to instruct the model mapper using it's predefined mapping approach, for example, with AutoMapper you will want to define your mappings in an `ApplicationEventHandler` like so:
+**NB** Whilst the `ViewModelMappings` tells HeadRest which ViewModel to map a content model to, it does *not* tell it how to actually map the properties over. For this you will need to instruct the model mapper using it's predefined mapping approach, for example, with UmbracoMapper you will want to define your mappings via a `MapDefinition` class registered via a composer like so:
 ````csharp 
-    public class Bootstrap : ApplicationEventHandler
+    public class MyHeadRestMapDefinition : IMapDefinition
     {
-        protected override void ApplicationStarted(UmbracoApplicationBase app, ApplicationContext ctx)
+        public void DefineMaps(UmbracoMapper mapper)
         {
-            Mapper.CreateMap<HomePage, HomePageViewModel();
+            mapper.Define<FromType, ToType>(
+                (frm, ctx) => ...,      // Constructor function
+                (frm, to, ctx) => ...   // Map function
+        }
+    }
+    
+    public class MyHeadRestMapDefinisionComposer : IUserComposer
+    {
+        public void Compose(Composition composition)
+        {
+            composition.WithCollectionBuilder<MapDefinitionCollectionBuilder>()
+                .Add<MyHeadRestMapDefinition>();
         }
     }
 ````
@@ -115,7 +143,7 @@ Anyone and everyone is welcome to contribute. Please take a moment to review the
 
 ## License
 
-Copyright &copy; 2018 Matt Brailsford, Outfield Digital Ltd 
+Copyright &copy; 2019 Matt Brailsford, Outfield Digital Ltd 
 
 Licensed under the [MIT License](LICENSE)
 

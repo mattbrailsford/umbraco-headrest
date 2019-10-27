@@ -1,7 +1,7 @@
 ﻿using Our.Umbraco.HeadRest.Web.Models;
 using System;
 using System.Web.Routing;
-using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 using Umbraco.Web.Mvc;
 
@@ -48,7 +48,7 @@ namespace Our.Umbraco.HeadRest.Web.Routing
                 }
             }
 
-            var node = umbracoContext.ContentCache.GetSingleByXPath(nodeXPath);
+            var node = umbracoContext.Content.GetSingleByXPath(nodeXPath);
 
             return node ?? new NotFoundPublishedContent();
         }
