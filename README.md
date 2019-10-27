@@ -11,7 +11,7 @@ Out of the box HeadRest is configured to use UmbracoMapper to perform it's mappi
 
 ### Nuget
 
-TBC
+    PM> Install-Package Our.Umbraco.HeadRest
 
 ## Configuration
 In order to configure HeadRest you will first of all need to create an Umbraco composer + compontent combination, resolving the HeadRest service from the DI container like so:
