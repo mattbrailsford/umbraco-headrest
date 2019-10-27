@@ -25,7 +25,7 @@ deploy:
     # GitHub Deployment for releases
   - provider: GitHub
     auth_token:
-      secure: k1eoY0KXg/FPYKGDeVJCl31exw28E7ToEZmAgc2M9VfbnSN6HeWltfTe7u20lvP7
+      secure: JmLktqm0owpfktMIINBjo3CKr9S/53yhtFypcz6WefhozE77x0PJvJ0zr+1/rLER
     artifact: /.*\.zip/            # upload all Zip packages to release assets
     draft: false
     prerelease: false
@@ -37,7 +37,7 @@ deploy:
   - provider: NuGet
     server: 
     api_key:
-      secure: q2Aov00i+eWTpbwWHB1JN8EAGw4o8FaOC2lj2MolyS6TGkUUFTJK/vQTQzaf/EQ5
+      secure: DLHhnOs1WWsZlHnkId7symdMXDvqDo8+SS3w9M+TDsd2vAfqvhdtN/aMcLq7M9+y
     artifact: /.*\.nupkg/
     on:
       branch: master
