@@ -22,16 +22,6 @@ artifacts:
   - path: artifacts\*.zip
 
 deploy:
-    # MyGet Deployment for builds & releases
-  - provider: NuGet
-    server: https://www.myget.org/F/umbraco-headrest/api/v2/package
-    symbol_server: https://www.myget.org/F/umbraco-headrest/symbols/api/v2/package
-    api_key:
-      secure: gHDTL46KZcLzj6J8m//TJgaCOJCl9ixR//rXjO18HRlCsfPYYz7dU81u2D5zd+ZN
-    artifact: /.*\.nupkg/
-    on:
-      branch: develop
-
     # GitHub Deployment for releases
   - provider: GitHub
     auth_token:
