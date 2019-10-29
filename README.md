@@ -46,7 +46,7 @@ From within the `Initialize` method, you can then configure your endpoint(s) via
 For the most basic implementation, the following minimal configuration is all that is needed:
 ````csharp 
     _headRest.ConfigureEndpoint(new HeadRestOptions {
-        ViewModelMappings = new new HeadRestViewModelMap()
+        ViewModelMappings = new HeadRestViewModelMap()
             .For(HomePage.ModelTypeAlias).MapTo<HomePageViewModel>()
             ...
     });
@@ -61,7 +61,7 @@ For a more advanced implementation, the following configuration shows all the su
         Mode = HeadRestEndpointMode.Dedicated,
         ControllerType = typeof(HeadRestController),
         Mapper = ctx => AutoMapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType),
-        ViewModelMappings = new new HeadRestViewModelMap()
+        ViewModelMappings = new HeadRestViewModelMap()
             .For(HomePage.ModelTypeAlias)
                 .If(x => x.Request.HeadRestRouteParam("altRoute") == "init")
                 .MapTo<InitViewModel>()
