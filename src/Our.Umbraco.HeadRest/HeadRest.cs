@@ -37,12 +37,9 @@ namespace Our.Umbraco.HeadRest
 
         public void ConfigureEndpoint(string basePath, string rootNodeXPath, IUmbracoBuilder builder, HeadRestOptions options)
         {
-            var config = new HeadRestConfig(options)
-            {
-                BasePath = basePath,
-                RootNodeXPath = rootNodeXPath
-            };
-
+            var config = new HeadRestConfig(options);
+            config.BasePath = basePath;
+            config.RootNodeXPath = rootNodeXPath;
             ConfigureEndpoint(builder, config);
         }
 

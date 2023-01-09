@@ -1,22 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
-		<Configurations>Debug;Release</Configurations>
-		<CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
-		<IsPackable>true</IsPackable>
-		<Company>Matt Brailsford</Company>
-		<Authors>Matt Brailsford</Authors>
-		<Version>2.0.0</Version>
-		<Copyright>Copyright © Matt Brailsford 2023</Copyright>
-		<PackageProjectUrl>https://github.com/mattbrailsford/umbraco-headrest</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/mattbrailsford/umbraco-headrest</RepositoryUrl>
-		<Title>HeadRest</Title>
-		<OutputType>Library</OutputType>
-	</PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <Configurations>Debug;Release</Configurations>
+        <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+        <IsPackable>true</IsPackable>
+        <Company>Matt Brailsford</Company>
+        <Authors>Matt Brailsford</Authors>
+        <Version>2.0.0</Version>
+        <Copyright>Copyright © Matt Brailsford 2023</Copyright>
+        <PackageProjectUrl>https://github.com/mattbrailsford/umbraco-headrest</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/mattbrailsford/umbraco-headrest</RepositoryUrl>
+        <Title>HeadRest</Title>
+        <OutputType>Library</OutputType>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.1" />
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.1" />
         <PackageReference Include="Umbraco.Cms" Version="9.0.0" />
-	</ItemGroup>
+    </ItemGroup>
 </Project>
