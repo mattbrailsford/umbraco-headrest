@@ -42,6 +42,10 @@ namespace Our.Umbraco.HeadRest.Web.Routing
             foreach (var headRestConfig in HeadRest.Configs.Values.Where(x => x.Mode == endpointMode))
             {
                 var rootNode = umbracoContext.Content.GetSingleByXPath(headRestConfig.RootNodeXPath);
+
+                if (rootNode == null)
+                    continue;
+
                 if (content.Path.StartsWith(rootNode.Path))
                 {
                     var subUrl = string.Join("/", content.AncestorsOrSelf(true, x => x.Level > rootNode.Level)
