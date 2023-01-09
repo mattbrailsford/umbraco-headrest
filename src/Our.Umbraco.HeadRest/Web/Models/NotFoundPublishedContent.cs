@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Umbraco.Core.Models;
-using Umbraco.Core.Models.PublishedContent;
+using Umbraco.Cms.Core.Models;
+using Umbraco.Cms.Core.Models.PublishedContent;
 
 namespace Our.Umbraco.HeadRest.Web.Models
 {
@@ -105,6 +105,8 @@ namespace Our.Umbraco.HeadRest.Web.Models
         public bool IsElement => false;
 
         public IEnumerable<IPublishedPropertyType> PropertyTypes => Enumerable.Empty<IPublishedPropertyType>();
+
+        public Guid Key => Guid.Empty;
 
         public int GetPropertyIndex(string alias) => -1;
 
