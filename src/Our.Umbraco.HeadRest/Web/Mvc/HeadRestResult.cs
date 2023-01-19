@@ -35,11 +35,11 @@ namespace Our.Umbraco.HeadRest.Web.Mvc
 
             var response = context.HttpContext.Response;
 
-            response.ContentType = "application/json";
+            response.ContentType = "application/json; charset=utf-8";
 
             if (Data != null)
             {
-                using (StreamWriter sw = new StreamWriter(response.Body, Encoding.UTF8))
+                using (StreamWriter sw = new StreamWriter(response.Body, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false)))
                 using (JsonTextWriter writer = new JsonTextWriter(sw) { Formatting = Formatting })
                 {
                     var serializer = JsonSerializer.Create(SerializerSettings);
