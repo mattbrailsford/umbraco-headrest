@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Web;
-using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Web;
+using Microsoft.AspNetCore.Http;
+using Umbraco.Cms.Core.Models.PublishedContent;
+using Umbraco.Cms.Core.Web;
 
 namespace Our.Umbraco.HeadRest.Web.Mapping
 {
@@ -18,9 +18,9 @@ namespace Our.Umbraco.HeadRest.Web.Mapping
         public IPublishedContent Content { get; internal set; }
         public Type ContentType { get; internal set; }
 
-        public HttpRequestBase Request { get; internal set; }
-        public HttpContextBase HttpContext { get; internal set; }
-        public UmbracoContext UmbracoContext { get; internal set; }
+        public HttpRequest Request { get; internal set; }
+        public HttpContext HttpContext { get; internal set; }
+        public IUmbracoContext UmbracoContext { get; internal set; }
 
         internal HeadRestPreMappingContext()
         { }

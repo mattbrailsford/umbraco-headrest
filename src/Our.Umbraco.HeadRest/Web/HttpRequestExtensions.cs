@@ -1,19 +1,19 @@
-﻿using Our.Umbraco.HeadRest.Web.Routing;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Web;
+using Microsoft.AspNetCore.Http;
+using Our.Umbraco.HeadRest.Web.Routing;
 
 namespace Our.Umbraco.HeadRest.Web
 {
-    public static class HttpRequestBaseExtensions
+    public static class HttpRequestExtensions
     {
-        public static string HeadRestRouteParam(this HttpRequestBase request, int index, string defaultValue = null)
+        public static string HeadRestRouteParam(this HttpRequest request, int index, string defaultValue = null)
         {
             var routeParams = request.HeadRestRouteParams();
             return routeParams?[index];
         }
 
-        public static TType HeadRestRouteParam<TType>(this HttpRequestBase request, int index, TType defaultValue = default(TType))
+        public static TType HeadRestRouteParam<TType>(this HttpRequest request, int index, TType defaultValue = default(TType))
         {
             var param = request.HeadRestRouteParam(index);
             if (param == null || string.IsNullOrWhiteSpace(param.ToString()))
@@ -25,13 +25,13 @@ namespace Our.Umbraco.HeadRest.Web
                 : defaultValue;
         }
 
-        public static string HeadRestRouteParam(this HttpRequestBase request, string name, string defaultValue = null)
+        public static string HeadRestRouteParam(this HttpRequest request, string name, string defaultValue = null)
         {
             var routeParams = request.HeadRestRouteParams();
             return routeParams?[name];
         }
 
-        public static TType HeadRestRouteParam<TType>(this HttpRequestBase request, string name, TType defaultValue = default(TType))
+        public static TType HeadRestRouteParam<TType>(this HttpRequest request, string name, TType defaultValue = default(TType))
         {
             var param = request.HeadRestRouteParam(name);
             if (param == null || string.IsNullOrWhiteSpace(param.ToString()))
@@ -43,15 +43,16 @@ namespace Our.Umbraco.HeadRest.Web
                 : defaultValue;
         }
 
-        private static HeadRestRouteParamsCollection HeadRestRouteParams(this HttpRequestBase request)
+        private static HeadRestRouteParamsCollection HeadRestRouteParams(this HttpRequest request)
         {
-            if (request.RequestContext?.RouteData?.Values == null)
+            var routeValues = request.HttpContext.Request.RouteValues;
+            if (routeValues?.Values == null)
                 return null;
 
-            if (!request.RequestContext.RouteData.Values.ContainsKey(HeadRest.RouteMapMatchKey))
+            if (!routeValues.ContainsKey(HeadRest.RouteMapMatchKey))
                 return null;
 
-            var routeMap = request.RequestContext.RouteData.Values[HeadRest.RouteMapMatchKey] as HeadRestRouteMapMatch;
+            var routeMap = routeValues[HeadRest.RouteMapMatchKey] as HeadRestRouteMapMatch;
 
             return routeMap?.Params;
         }

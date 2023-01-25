@@ -1,8 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Our.Umbraco.HeadRest.Web.Mvc
 {
-    internal class HeadRestExceptionFilterAttribute : FilterAttribute, IExceptionFilter
+    internal class HeadRestExceptionFilter : IExceptionFilter
     {
         public void OnException(ExceptionContext filterContext)
         {

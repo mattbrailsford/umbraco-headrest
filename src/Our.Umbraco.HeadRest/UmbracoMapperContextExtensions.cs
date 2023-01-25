@@ -1,5 +1,5 @@
 ﻿using Our.Umbraco.HeadRest.Web.Mapping;
-using Umbraco.Core.Mapping;
+using Umbraco.Cms.Core.Mapping;
 
 namespace Our.Umbraco.HeadRest
 {
