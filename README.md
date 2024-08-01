@@ -14,38 +14,31 @@ Out of the box HeadRest is configured to use UmbracoMapper to perform it's mappi
     PM> Install-Package Our.Umbraco.HeadRest
 
 ## Configuration
-In order to configure HeadRest you will first of all need to create an Umbraco composer + compontent combination, resolving the HeadRest service from the DI container like so:
+In order to configure HeadRest you will first of all need to create an Umbraco composer:
+
 ````csharp
-    public class HeadRestConfigComponent : IComponent
+    public class HeadRestConfigComposer : IComposer
     {
-        private readonly HeadRest _headRest;
-
-        public HeadRestConfigComponent(HeadRest headRest) 
-            => _headRest = headRest;
-
-        public void Initialize()
+        public void Compose(IUmbracoBuilder builder)
         {
             // Configuration goes here
         }
-
-        public void Terminate() { }
     }
 
-    public class HeadRestConfigComposer : ComponentComposer<HeadRestConfigComponent>
-    { }
+    public void Terminate() { }
 ````
 
-From within the `Initialize` method, you can then configure your endpoint(s) via the `ConfigureEndpoint` method on the resolved HeadRest service instance:
+From within the `Compose` method, you can then configure your endpoint(s) via the `ConfigureEndpoint` method on a new instance of the HeadRest service:
 ````csharp 
     ...
-    _headRest.ConfigureEndpoint(...);
+    new HeadRest().ConfigureEndpoint(...);
     ...
 ````
 
 ### Basic Configuration
 For the most basic implementation, the following minimal configuration is all that is needed:
 ````csharp 
-    _headRest.ConfigureEndpoint(new HeadRestOptions {
+    new HeadRest().ConfigureEndpoint(new HeadRestOptions {
         ViewModelMappings = new HeadRestViewModelMap()
             .For(HomePage.ModelTypeAlias).MapTo<HomePageViewModel>()
             ...
@@ -57,7 +50,7 @@ This will create an API endpoint at the path `/`, and will be anchored to the fi
 ### Advanced Configuration
 For a more advanced implementation, the following configuration shows all the supported options.
 ````csharp 
-    _headRest.ConfigureEndpoint("/api/", "/root//nodeTypeAlias[1]", new HeadRestOptions {
+    new HeadRest().ConfigureEndpoint("/api/", "/root//nodeTypeAlias[1]", new HeadRestOptions {
         Mode = HeadRestEndpointMode.Dedicated,
         ControllerType = typeof(HeadRestController),
         Mapper = ctx => AutoMapper.Map(ctx.Content, ctx.ContentType, ctx.ViewModelType),
@@ -100,7 +93,7 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
 ````csharp 
     public class MyHeadRestMapDefinition : IMapDefinition
     {
-        public void DefineMaps(UmbracoMapper mapper)
+        public void DefineMaps(IUmbracoMapper mapper)
         {
             mapper.Define<FromType, ToType>(
                 (frm, ctx) => ...,      // Constructor function
@@ -108,9 +101,9 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
         }
     }
     
-    public class MyHeadRestMapDefinisionComposer : IUserComposer
+    public class MyHeadRestMapDefinisionComposer : IComposer
     {
-        public void Compose(Composition composition)
+        public void Compose(IUmbracoBuilder builder)
         {
             composition.WithCollectionBuilder<MapDefinitionCollectionBuilder>()
                 .Add<MyHeadRestMapDefinition>();
@@ -130,7 +123,7 @@ This will create an endpoint at the url `/api/`, and will be anchored to the nod
 | Supports mixed install | Yes. You can have a headless API + website in one install | No. Headless only install |
 | Supports custom backend code | Yes | No |
 | Client libraries available | None. Roll your own | .NET Framework, .NET Core, Node.js |
-| Hosting | Installs to any Umbraco version (7.12+) | Umbraco Cloud service only |
+| Hosting | Installs to any Umbraco version (9.0+) | Umbraco Cloud service only |
 | Support | Limited community support | HQ Supported |
 
 ## Contributing To This Project

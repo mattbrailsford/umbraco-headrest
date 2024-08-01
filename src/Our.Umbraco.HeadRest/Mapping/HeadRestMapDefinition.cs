@@ -1,10 +1,10 @@
-﻿using Umbraco.Core.Mapping;
+﻿using Umbraco.Cms.Core.Mapping;
 
 namespace Our.Umbraco.HeadRest.Mapping
 {
     public class HeadRestMapDefinition : IMapDefinition
     {
-        public void DefineMaps(UmbracoMapper mapper)
+        public void DefineMaps(IUmbracoMapper mapper)
         {
             mapper.Define<HeadRestOptions, HeadRestConfig>(
                 (src, ctx) => new HeadRestConfig(),

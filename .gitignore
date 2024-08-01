@@ -251,3 +251,7 @@ build/_nuget
 src/Our.Umbraco.AuthU.TestHarness
 src/Our.Umbraco.AuthU.Web
 src/Our.Umbraco.AuthU.Matt.*
+
+# Ignore umbraco folders restored by nuget
+src/Our.Umbraco.HeadRest/wwwroot/umbraco
+src/Our.Umbraco.HeadRest/umbraco

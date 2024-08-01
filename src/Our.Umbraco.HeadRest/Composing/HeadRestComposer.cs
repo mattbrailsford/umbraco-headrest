@@ -1,26 +1,24 @@
-﻿using Our.Umbraco.HeadRest.Mapping;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Our.Umbraco.HeadRest.Mapping;
 using Our.Umbraco.HeadRest.Web.Routing;
-using Umbraco.Core;
-using Umbraco.Core.Composing;
-using Umbraco.Core.Mapping;
-using Umbraco.Web.Routing;
+using Umbraco.Cms.Core.Composing;
+using Umbraco.Cms.Core.DependencyInjection;
+using Umbraco.Cms.Core.Mapping;
+using Umbraco.Cms.Core.Routing;
 
 namespace Our.Umbraco.HeadRest.Composing
 {
-    public class HeadRestComposer : IUserComposer
+    public class HeadRestComposer : IComposer
     {
-        public void Compose(Composition composition)
+        public void Compose(IUmbracoBuilder builder)
         {
-            composition.WithCollectionBuilder<UrlProviderCollectionBuilder>()
+            builder.WithCollectionBuilder<UrlProviderCollectionBuilder>()
                 .InsertBefore<DefaultUrlProvider, HeadRestUrlProvider>();
 
-            composition.WithCollectionBuilder<MapDefinitionCollectionBuilder>()
+            builder.WithCollectionBuilder<MapDefinitionCollectionBuilder>()
                 .Add<HeadRestMapDefinition>();
 
-            composition.Register<HeadRest>();
-
-            composition.Components()
-                .Append<HeadRestComponent>();
+            builder.Services.AddTransient<HeadRest>();
         }
     }
 }

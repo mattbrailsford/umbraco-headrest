@@ -1,17 +1,29 @@
 ﻿using System;
-using System.Web.Mvc;
-using Umbraco.Web.Models;
-using Umbraco.Web.Mvc;
-using Our.Umbraco.HeadRest.Web.Mvc;
-using Our.Umbraco.HeadRest.Web.Mapping;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.Extensions.Logging;
 using Our.Umbraco.HeadRest.Interfaces;
+using Our.Umbraco.HeadRest.Web.Mapping;
 using Our.Umbraco.HeadRest.Web.Models;
+using Our.Umbraco.HeadRest.Web.Mvc;
+using Umbraco.Cms.Core.Web;
+using Umbraco.Cms.Web.Common.Controllers;
+using Umbraco.Cms.Web.Common.Routing;
+using Umbraco.Extensions;
 
 namespace Our.Umbraco.HeadRest.Web.Controllers
 {
-    [HeadRestExceptionFilter]
-    public class HeadRestController : RenderMvcController
+    [TypeFilter(typeof(HeadRestExceptionFilter))]
+    public class HeadRestController : UmbracoPageController
     {
+        private readonly IUmbracoContextAccessor _umbracoContextAccessor;
+
+        public HeadRestController(ILogger<RenderController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor)
+            : base(logger, compositeViewEngine)
+        {
+            _umbracoContextAccessor = umbracoContextAccessor;
+        }
+
         internal IHeadRestConfig Config
         {
             get
@@ -20,10 +32,12 @@ namespace Our.Umbraco.HeadRest.Web.Controllers
             }
         }
 
-        public override ActionResult Index(ContentModel model)
+        public virtual IActionResult Index()
         {
+            var content = CurrentPage;
+
             // Check for 404
-            if (model.Content is NotFoundPublishedContent)
+            if (content is NotFoundPublishedContent)
             {
                 Response.StatusCode = 404;
           
@@ -34,25 +48,26 @@ namespace Our.Umbraco.HeadRest.Web.Controllers
             }
 
             // Process the model mapping request
-            var contentTypeAlias = model.Content.ContentType.Alias;
+            var umbracoContext = _umbracoContextAccessor.GetRequiredUmbracoContext();
+            var contentTypeAlias = content.ContentType.Alias;
             var viewModelType = Config.ViewModelMappings.GetViewModelTypeFor(contentTypeAlias, new HeadRestPreMappingContext
             {
                 Request = Request,
                 HttpContext = HttpContext,
-                UmbracoContext = UmbracoContext
+                UmbracoContext = umbracoContext
             });
 
             if (viewModelType == null)
-                throw new InvalidOperationException($"No view model map found for type '{contentTypeAlias}' at route {Request.Url}");
+                throw new InvalidOperationException($"No view model map found for type '{contentTypeAlias}' at path {Request.Path}");
 
             var viewModel = Config.Mapper.Invoke(new HeadRestMappingContext
             {
-                Content = model.Content,
-                ContentType = model.Content.GetType(),
+                Content = content,
+                ContentType = content.GetType(),
                 ViewModelType = viewModelType,
                 Request = Request,
                 HttpContext = HttpContext,
-                UmbracoContext = UmbracoContext
+                UmbracoContext = umbracoContext
             });
 
             return new HeadRestResult

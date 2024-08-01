@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Umbraco.Core;
+using Umbraco.Extensions;
 
 namespace Our.Umbraco.HeadRest.Web.Routing
 {
